@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 
 import config from "./config";
 import routes from "./routes";
@@ -8,6 +9,13 @@ import { genericErrorHandler, notFoundError } from "./middlewares/errorHandler";
 const app = express();
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:3070",
+    credentials: true,
+  })
+);
 
 app.use(routes);
 
