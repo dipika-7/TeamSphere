@@ -20,7 +20,9 @@ export async function up(knex: Knex): Promise<void> {
 
         table.string("description", 255).nullable();
 
-        table.enu("status", ["complete", "incomplete"]).defaultTo("incomplete");
+        table
+          .enum("status", ["complete", "incomplete"])
+          .defaultTo("incomplete");
 
         table.date("deadline").notNullable();
 

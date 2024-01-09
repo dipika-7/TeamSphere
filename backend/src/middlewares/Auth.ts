@@ -24,7 +24,6 @@ export const Auth = async (req: any, res: Response, next: NextFunction) => {
     } else {
       delete payload.tokenType;
       req.user = payload;
-      console.log(req.user);
       next();
     }
   } else {

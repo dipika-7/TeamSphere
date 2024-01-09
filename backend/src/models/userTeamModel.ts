@@ -46,14 +46,14 @@ export default class UserTeamModel extends BaseModel {
   }
 
   static async create(team: ICreateUserTeam) {
-    return this.queryBuilder().insert(team).table("user_teams");
+    return this.queryBuilder().insert(team).table("user_team");
   }
 
   static async update(id: string, team: IUpdateUserTeam) {
-    return this.queryBuilder().update(team).table("user_teams").where({ id });
+    return this.queryBuilder().update(team).table("user_team").where({ id });
   }
 
   static async delete(id: string) {
-    return this.queryBuilder().table("user_teams").where({ id }).del();
+    return this.queryBuilder().table("user_team").where({ id }).del();
   }
 }

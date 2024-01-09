@@ -2,7 +2,7 @@ export interface IUesrTeam {
   id: string;
   user_id: string;
   team_id: string;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 export interface ICreateUserTeam extends Omit<IUesrTeam, "id"> {}

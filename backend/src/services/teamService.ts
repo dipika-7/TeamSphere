@@ -2,12 +2,20 @@ import InternalServerError from "../errors/internalServerError";
 import NotFoundError from "../errors/notFoundError";
 import { ICreateTeam, IUpdateTeam } from "../interfaces/teamInterface";
 import TeamModel from "../models/teamModel";
+import * as UserTeamService from "../services/userTeamService";
+import * as ListService from "../services/listService";
 
 export const createTeam = async (data: ICreateTeam) => {
   const newTeam = await TeamModel.create(data);
   if (!newTeam) {
     throw new InternalServerError("Fail to update");
   }
+  const userTeamRelation = await UserTeamService.createUserTeam({
+    user_id: newTeam[0].createdBy,
+    team_id: newTeam[0].id,
+  });
+
+  const createList = await ListService.createListGroup(newTeam[0].id);
   return newTeam[0];
 };
 

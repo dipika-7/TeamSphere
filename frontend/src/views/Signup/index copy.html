@@ -17,48 +17,42 @@
                     <h3 class="text-center">Register</h3>
                     <form class="row g-3 needs-validation" id="register-form" novalidate>
                         <div class="col-md-12">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="validationCustomUsername" class="form-label">Username</label>
                             <div class="input-group has-validation">
-                                <input type="text" class="form-control" name="username" id="register-username"
-                                    aria-describedby="inputGroupPrepend" required>
+                                <input type="text" class="form-control" name="username"
+                                    id="username validationCustomUsername" aria-describedby="inputGroupPrepend"
+                                    required>
                                 <div class="invalid-feedback">
                                     Please choose a username.
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="text" class="form-control" name="email" id="register-email" required>
+                            <label for="validationCustom03" class="form-label">Email</label>
+                            <input type="text" class="form-control" name="email" id="email validationCustom03" required>
                             <div class="invalid-feedback">
                                 Please provide a valid email.
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="designation" class="form-label">Designation</label>
-                            <input type="text" class="form-control" name="designation" id="register-designation"
+                            <label for="validationCustom03" class="form-label">Password</label>
+                            <input type="text" class="form-control" name="password" id="password validationCustom03"
                                 required>
-                            <div class="invalid-feedback">
-                                Please provide a valid designation.
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" id="register-password" required>
                             <div class="invalid-feedback">
                                 Please provide a valid password.
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="confirm-password" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" name="confirm-password"
-                                id="register-confirm-password" required>
-                            <div class="invalid-feedback" id="invalid-confirm-password">
+                            <label for="validationCustom03" class="form-label">Confirm Password</label>
+                            <input type="text" class="form-control" name="confirm-password"
+                                id="confirm-password validationCustom03" required>
+                            <div class="invalid-feedback">
                                 Please provide a valid password.
                             </div>
                         </div>
                         <div class="col-12 d-flex">
                             <button class="btn btn-info" type="submit">Register</button>
-                            <button class="btn btn-info  mx-3" type="submit" id="login-btn">Login</button>
+                            <button class="btn btn-primary  mx-3" type="submit">Login</button>
                         </div>
                     </form>
                 </div>
