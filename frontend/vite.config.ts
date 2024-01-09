@@ -4,7 +4,7 @@ export default defineConfig({
   base: "./",
   root: "./src",
   server: {
-    port: 3070,
+    port: 3175,
   },
   resolve: {
     alias: {
