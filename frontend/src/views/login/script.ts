@@ -1,11 +1,8 @@
-import "normalize.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/main.css";
-
-import { HttpStatusCode } from "axios";
+import { AxiosError } from "axios";
 
 import { http } from "../../services/httpService";
 import { ILogin } from "../../interfaces/authInterface";
+import { showToastMessage } from "../../utils/toastMessage";
 
 const loginForm = document.getElementById("login-form") as HTMLFormElement;
 const registerBtn = document.getElementById("register-btn") as HTMLFormElement;
@@ -34,13 +31,14 @@ loginForm.addEventListener("submit", async (e) => {
   emailInput.classList.remove("is-invalid");
   passwordInput.classList.remove("is-invalid");
 
-  const email = loginForm.email.value;
-  const password = loginForm.password.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
   const data = {
     email,
     password,
   };
   if (validateInput(data)) {
+    console.log("Login success");
     await login(data);
   }
   return;
@@ -49,12 +47,17 @@ loginForm.addEventListener("submit", async (e) => {
 async function login(user: { email: string; password: string }) {
   try {
     const response = await http.post("/auth/login", user);
+    console.log(response);
+    if (response.status == 200) {
+      localStorage.setItem("accessToken", response.data.data.accessToken);
+      showToastMessage("success", response.data.message);
 
-    if (response.status === HttpStatusCode.Accepted) {
+      window.location.href = "/views/dashboard/";
     }
-    console.log("Login success", response);
   } catch (error) {
-    console.log(error);
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
   }
 }
 

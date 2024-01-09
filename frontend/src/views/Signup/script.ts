@@ -1,8 +1,7 @@
-import "normalize.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../../styles/main.css";
 import { http } from "../../services/httpService";
 import { ISignUp } from "../../interfaces/authInterface";
+import { showToastMessage } from "../../utils/toastMessage";
+import { AxiosError } from "axios";
 
 const registerForm = document.getElementById(
   "register-form"
@@ -96,9 +95,15 @@ async function register(user: {
   try {
     const response = await http.post("/auth/signup", user);
 
-    console.log("Signup success", response);
+    console.log("Signup success", response, response.data.status);
+    if (response.data.status === 200) {
+      showToastMessage("success", response.data.message);
+    }
   } catch (error) {
     console.log({ error });
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
   }
 }
 
