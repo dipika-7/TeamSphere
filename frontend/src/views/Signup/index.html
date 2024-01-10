@@ -31,11 +31,11 @@
                     type="text"
                     class="form-control"
                     name="username"
-                    id="register-username"
+                    id="username"
                     aria-describedby="inputGroupPrepend"
                     required
                   />
-                  <div class="invalid-feedback">Please choose a username.</div>
+                  <div class="invalid-feedback" id="username-feedback"></div>
                 </div>
               </div>
               <div class="col-md-12">
@@ -44,12 +44,10 @@
                   type="text"
                   class="form-control"
                   name="email"
-                  id="register-email"
+                  id="email"
                   required
                 />
-                <div class="invalid-feedback">
-                  Please provide a valid email.
-                </div>
+                <div class="invalid-feedback" id="email-feedback"></div>
               </div>
               <div class="col-md-12">
                 <label for="designation" class="form-label">Designation</label>
@@ -57,12 +55,10 @@
                   type="text"
                   class="form-control"
                   name="designation"
-                  id="register-designation"
+                  id="designation"
                   required
                 />
-                <div class="invalid-feedback">
-                  Please provide a valid designation.
-                </div>
+                <div class="invalid-feedback" id="designation-feedback"></div>
               </div>
               <div class="col-md-12">
                 <label for="password" class="form-label">Password</label>
@@ -70,12 +66,10 @@
                   type="password"
                   class="form-control"
                   name="password"
-                  id="register-password"
+                  id="password"
                   required
                 />
-                <div class="invalid-feedback">
-                  Please provide a valid password.
-                </div>
+                <div class="invalid-feedback" id="password-feedback"></div>
               </div>
               <div class="col-md-12">
                 <label for="confirm-password" class="form-label"
@@ -84,13 +78,14 @@
                 <input
                   type="password"
                   class="form-control"
-                  name="confirm-password"
-                  id="register-confirm-password"
+                  name="confirmPassword"
+                  id="confirmPassword"
                   required
                 />
-                <div class="invalid-feedback" id="invalid-confirm-password">
-                  Please provide a valid password.
-                </div>
+                <div
+                  class="invalid-feedback"
+                  id="confirmPassword-feedback"
+                ></div>
               </div>
               <div class="col-12 d-flex">
                 <button class="btn btn-info" type="submit">Register</button>

@@ -1,111 +1,69 @@
-import { http } from "../../services/httpService";
-import { ISignUp } from "../../interfaces/authInterface";
-import { showToastMessage } from "../../utils/toastMessage";
+import { ValidationError } from "yup";
+import { signupSchema } from "../../schemas/authSchema";
+import { register } from "../../utils/authUtil";
+import {
+  displayValidationError,
+  validateFormData,
+} from "../../utils/validateUtil";
 import { AxiosError } from "axios";
+import { showToastMessage } from "../../utils/responseUtil";
 
 const registerForm = document.getElementById(
   "register-form"
 ) as HTMLFormElement;
-const usernameInput = document.getElementById(
-  "register-username"
-) as HTMLFormElement;
-const emailInput = document.getElementById("register-email") as HTMLFormElement;
-const passwordInput = document.getElementById(
-  "register-password"
-) as HTMLFormElement;
-const confirmPasswordInput = document.getElementById(
-  "register-confirm-password"
-) as HTMLFormElement;
-const designationInput = document.getElementById(
-  "register-designation"
-) as HTMLFormElement;
-const confirmPasswordError = document.getElementById(
-  "invalid-confirm-password"
-) as HTMLFormElement;
-
 const loginBtn = document.getElementById("login-btn") as HTMLFormElement;
-
-const validateInput = (data: ISignUp) => {
-  if (data.username == "") {
-    usernameInput.classList.add("is-invalid");
-    return false;
-  }
-  if (data.email == "") {
-    emailInput.classList.add("is-invalid");
-    return false;
-  }
-  if (data.designation == "") {
-    designationInput.classList.add("is-invalid");
-    return false;
-  }
-  if (data.password == "") {
-    passwordInput.classList.add("is-invalid");
-    return false;
-  }
-  if (data.confirmPassword == "") {
-    confirmPasswordInput.classList.add("is-invalid");
-    return false;
-  }
-
-  if (data.password !== data.confirmPassword) {
-    console.log("not match");
-    confirmPasswordInput.classList.add("is-invalid");
-    confirmPasswordError.innerHTML = "Passwords does not match";
-    return false;
-  }
-  return true;
-};
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  try {
+    const username = registerForm.username.value.trim();
+    const email = registerForm.email.value.trim();
+    const password = registerForm.password.value.trim();
+    const confirmPassword = registerForm.confirmPassword.value.trim();
+    const designation = registerForm.designation.value.trim();
 
-  usernameInput.classList.remove("is-invalid");
-  emailInput.classList.remove("is-invalid");
-  designationInput.classList.remove("is-invalid");
-  passwordInput.classList.remove("is-invalid");
-  confirmPasswordInput.classList.remove("is-invalid");
+    const user = {
+      username,
+      email,
+      password,
+      designation,
+      confirmPassword,
+    };
 
-  const username = usernameInput.value.trim();
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-  const confirmPassword = confirmPasswordInput.value.trim();
-  const designation = designationInput.value.trim();
+    const validateData = await validateFormData(signupSchema, user);
 
-  const user = {
-    username,
-    email,
-    password,
-    designation,
-    confirmPassword,
-  };
-  if (validateInput(user)) {
-    delete user.confirmPassword;
-    await register(user);
+    if (validateData) {
+      delete user.confirmPassword;
+      await register(user);
+    }
+    return;
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      e.inner.forEach((error) => {
+        displayValidationError(registerForm, error.path!, error.message);
+      });
+    }
+    if (e instanceof AxiosError) {
+      showToastMessage("error", e.response?.data.message);
+    }
   }
-
-  return;
 });
 
-async function register(user: {
-  username: string;
-  email: string;
-  password: string;
-  designation: string;
-}) {
-  try {
-    const response = await http.post("/auth/signup", user);
-
-    console.log("Signup success", response, response.data.status);
-    if (response.data.status === 200) {
-      showToastMessage("success", response.data.message);
-    }
-  } catch (error) {
-    console.log({ error });
-    if (error instanceof AxiosError) {
-      showToastMessage("error", error.response?.data.message);
-    }
-  }
-}
+registerForm.email.addEventListener("input", () => {
+  registerForm.email.classList.remove("is-invalid");
+});
+registerForm.username.addEventListener("input", () => {
+  registerForm.username.classList.remove("is-invalid");
+});
+registerForm.designation.addEventListener("input", () => {
+  registerForm.designation.classList.remove("is-invalid");
+});
+registerForm.password.addEventListener("input", () => {
+  registerForm.password.classList.remove("is-invalid");
+});
+registerForm.confirmPassword.addEventListener("input", () => {
+  registerForm.confirmPassword.classList.remove("is-invalid");
+});
 
 loginBtn.addEventListener("click", function () {
   window.location.href = "../login/";
