@@ -10,7 +10,6 @@ export const createList = async (
   next: NextFunction
 ) => {
   try {
-    console.log("here");
     const data = req.body;
 
     if (!data.teamId) {
@@ -56,7 +55,6 @@ export const getListByTeamId = async (
   try {
     const teamId = req.params.id;
 
-    console.log(teamId, "a");
     const result = await listService.getListByTeamId(teamId);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got list detail",

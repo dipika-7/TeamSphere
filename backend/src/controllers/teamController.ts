@@ -15,7 +15,6 @@ export const createTeam = async (
     data.createdBy = req?.user?.id;
 
     if (!data.createdBy) {
-      console.log("req.user.id");
       throw new NotFoundError("User Not Found");
     }
 
