@@ -1,6 +1,6 @@
 import { ValidationError } from "yup";
 import { signupSchema } from "../../schemas/authSchema";
-import { register } from "../../utils/authUtil";
+import { register } from "../../services/authService";
 import {
   displayValidationError,
   validateFormData,
@@ -11,7 +11,6 @@ import { showToastMessage } from "../../utils/responseUtil";
 const registerForm = document.getElementById(
   "register-form"
 ) as HTMLFormElement;
-const loginBtn = document.getElementById("login-btn") as HTMLFormElement;
 
 registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -35,6 +34,10 @@ registerForm.addEventListener("submit", async (e) => {
     if (validateData) {
       delete user.confirmPassword;
       await register(user);
+
+      setTimeout(() => {
+        window.location.href = "/views/login/";
+      }, 2000);
     }
     return;
   } catch (e) {
@@ -63,8 +66,4 @@ registerForm.password.addEventListener("input", () => {
 });
 registerForm.confirmPassword.addEventListener("input", () => {
   registerForm.confirmPassword.classList.remove("is-invalid");
-});
-
-loginBtn.addEventListener("click", function () {
-  window.location.href = "../login/";
 });

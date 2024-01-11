@@ -1,9 +1,0 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Public+Sans:wght@100;200;300;400;500;600;700&display=swap");
-
-body {
-  font-family: "Public Sans", sans-serif;
-}
-
-.card {
-  box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
-}

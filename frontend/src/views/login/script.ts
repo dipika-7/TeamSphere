@@ -1,6 +1,6 @@
 import { ValidationError } from "yup";
 import { loginSchema } from "../../schemas/authSchema";
-import { login } from "../../utils/authUtil";
+import { login } from "../../services/authService";
 import {
   displayValidationError,
   validateFormData,
@@ -9,7 +9,6 @@ import { AxiosError } from "axios";
 import { showToastMessage } from "../../utils/responseUtil";
 
 const loginForm = document.getElementById("login-form") as HTMLFormElement;
-const registerBtn = document.getElementById("register-btn") as HTMLFormElement;
 
 loginForm.addEventListener("submit", async (e) => {
   try {
@@ -29,6 +28,9 @@ loginForm.addEventListener("submit", async (e) => {
     if (validateData) {
       console.log("Login success");
       await login(data);
+      setTimeout(() => {
+        window.location.href = "/views/dashboard/";
+      }, 2000);
     }
     return;
   } catch (e) {
@@ -42,8 +44,4 @@ loginForm.addEventListener("submit", async (e) => {
       showToastMessage("error", e.response?.data.message);
     }
   }
-});
-
-registerBtn.addEventListener("click", function () {
-  window.location.href = "/views/signup/";
 });
