@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <script type="module" src="../../services/checkAuth.ts"></script>
+  </head>
+
+  <body>
+    <div id="navbar-container"></div>
+    <div id="card-container"></div>
+
+    <div class="container mt-5">
+      <div class="user-profile">
+        <p>User Profile</p>
+        <p id="user-name"></p>
+        <p id="user-designation"></p>
+      </div>
+
+      <div class="user-team">
+        <p>Your Teams</p>
+        <form class="row needs-validation" id="team-form" novalidate>
+          <div class="col-md-12">
+            <button type="submit" id="add-team">+</button>
+            <input type="text" name="name" id="team-name" required />
+            <input type="text" name="description" id="team-description" />
+          </div>
+        </form>
+        <ul id="team-list"></ul>
+      </div>
+
+      <div id="team-detail"></div>
+      <div id="list-container">
+        <div id="list"></div>
+
+        <div id="add-card-container" class="d-none">
+          <div class="col-md-5 mx-auto">
+            <div class="card p-4">
+              <h3 class="text-center">Add Card</h3>
+              <form
+                class="row g-3 needs-validation"
+                id="add-card-form"
+                novalidate
+              >
+                <div class="col-md-12">
+                  <label for="title" class="form-label">Title</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="title"
+                    id="card-title"
+                    required
+                  />
+                  <div class="invalid-feedback" id="title-feedback"></div>
+                </div>
+                <div class="col-md-12">
+                  <label for="description" class="form-label"
+                    >Description</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    id="card-description"
+                    required
+                  />
+                  <div class="invalid-feedback" id="description-feedback"></div>
+                </div>
+                <div class="col-md-12">
+                  <label for="deadline" class="form-label">Deadline</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="deadline"
+                    id="card-deadline"
+                    required
+                  />
+                  <div class="invalid-feedback" id="deadline-feedback"></div>
+                </div>
+                <!-- <div class="col-md-12">
+                  <label for="assignedTo" class="form-label">Assigned to</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="assignedTo"
+                    id="card-assignedTo"
+                    required
+                  />
+                  <div
+                    class="invalid-feedback"
+                    id="card-assignedTo-feedback"
+                  ></div>
+                </div> -->
+                <div class="col-lg-12">
+                  <label for="assignedTo" class="form-label col-md-5"
+                    >Assigned to</label
+                  >
+                  <div class="input-group mb-3">
+                    <select
+                      class="custom-select form-control"
+                      name="assignedTo"
+                      id="card-assignedTo"
+                    >
+                      <option selected disabled>Choose...</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <button class="btn btn-info" type="submit">Add Card</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div id="card-group">
+        <ul id="card-list">
+          <div id="card-item"></div>
+        </ul>
+      </div> -->
+    </div>
+    <button class="btn btn-info" id="logout">Logout</button>
+    <script type="module" src="./navbar.ts"></script>
+    <script type="module" src="./script.ts"></script>
+  </body>
+</html>
