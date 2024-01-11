@@ -4,6 +4,7 @@ import { ICreateTeam, IUpdateTeam } from "../interfaces/teamInterface";
 import TeamModel from "../models/teamModel";
 import * as UserTeamService from "../services/userTeamService";
 import * as ListService from "../services/listService";
+import * as CardService from "../services/cardService";
 
 export const createTeam = async (data: ICreateTeam) => {
   const newTeam = await TeamModel.create(data);
@@ -55,5 +56,16 @@ export const deleteTeam = async (id: string) => {
     throw new InternalServerError("Fail to remove");
   }
 
+  const listsOfTeam = await ListService.getListByTeamId(id);
+  console.log("listsOfTeam", listsOfTeam);
+  listsOfTeam.forEach(async (list) => {
+    console.log("list delete", list.id);
+    const deleteList = await ListService.deleteList(list.id);
+
+    const cardsOfList = await CardService.getCardByListId(list.id);
+    cardsOfList.forEach(async (card) => {
+      const deleteCard = await CardService.deleteCard(card.id);
+    });
+  });
   return teamDetail;
 };

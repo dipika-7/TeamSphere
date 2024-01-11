@@ -55,6 +55,21 @@ export default class UserModel extends BaseModel {
     return user?.[0];
   }
 
+  static async getByUsername(username: string) {
+    const user = await this.queryBuilder()
+      .select({
+        id: "id",
+        username: "username",
+        email: "email",
+        password: "password",
+        designation: "designation",
+      })
+      .from("users")
+      .where({ username, isDeleted: false });
+
+    return user?.[0];
+  }
+
   static async create(user: ISignUp) {
     return this.queryBuilder().insert(user).table("users");
   }

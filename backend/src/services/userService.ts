@@ -12,6 +12,15 @@ export const getUserById = async (id: string) => {
   return userDetail;
 };
 
+export const getUserByUsername = async (username: string) => {
+  const userDetail = await UserModel.getByUsername(username);
+  if (!userDetail) {
+    throw new NotFoundError("Not Found");
+  }
+
+  return userDetail;
+};
+
 export const updateUserProfile = async (id: string, data: IUpdateUser) => {
   const userDetail = await getUserById(id);
 

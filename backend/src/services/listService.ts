@@ -40,7 +40,7 @@ export const getListById = async (id: string) => {
 
 export const getListByTeamId = async (teamId: string) => {
   const listDetail = await ListModel.getByTeamId(teamId);
-  if (!listDetail) {
+  if (listDetail.length < 0) {
     throw new NotFoundError("Not Found");
   }
 

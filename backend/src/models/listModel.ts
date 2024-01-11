@@ -4,7 +4,7 @@ import { LIST } from "../constants/database";
 
 export default class ListModel extends BaseModel {
   static async getById(id: string) {
-    return this.queryBuilder()
+    const query = this.queryBuilder()
       .select({
         id: "l.id",
         title: "title",
@@ -13,8 +13,10 @@ export default class ListModel extends BaseModel {
       })
       .from("lists as l")
       .join("teams as t", "l.teamId", "=", "t.id")
-      .where({ "l.id": id, "t.isDeleted": false })
+      .where({ "l.id": id, "l.isDeleted": false })
       .first();
+    console.log(query.toQuery());
+    return query;
   }
 
   static async getByTeamId(teamId: string) {
@@ -29,7 +31,7 @@ export default class ListModel extends BaseModel {
       .from("lists as l")
       .join("teams as t", "l.teamId", "=", "t.id")
       .join("users as u", "t.createdBy", "=", "u.id")
-      .where({ "l.teamId": teamId, "t.isDeleted": false })
+      .where({ "l.teamId": teamId, "l.isDeleted": false })
       .orderBy("order", "asc");
   }
 
