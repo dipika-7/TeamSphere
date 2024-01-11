@@ -5,6 +5,7 @@ import { GLOBALVARS } from "../constants/statusCode";
 import * as authService from "../services/authService";
 import { ISignUp } from "../interfaces/userInterface";
 import NotFoundError from "../errors/notFoundError";
+import { sendMail } from "../helpers/mailHelper";
 
 export const signup = async (
   req: Request,
@@ -35,6 +36,7 @@ export const login = async (
 
     const data = await authService.login(body);
 
+    sendMail({ email: "dipikasuwal77@gmail.com", message: "Welcome Test" });
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Login successfully",
       data,
