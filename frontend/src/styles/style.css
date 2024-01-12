@@ -22,3 +22,42 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.text-white {
+  color: white;
+}
+
+.bg-main {
+  background-image: url("../../assets/images/backgroundImg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.container-height {
+  height: 100vh;
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+}
+
+.text-lg {
+  font-size: 18px;
+}
+
+.team-list {
+  cursor: pointer;
+}
+
+#add-card-container {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+}
+
+.icon-size {
+  font-size: 30px;
+}
