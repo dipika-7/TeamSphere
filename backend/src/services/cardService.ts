@@ -4,6 +4,14 @@ import { ICreateCard, IUpdateCard } from "../interfaces/cardInterface";
 import CardModel from "../models/cardModel";
 
 export const createCard = async (data: ICreateCard) => {
+  const getCard = await CardModel.getByListId(data.listId);
+
+  if (getCard.length <= 0) {
+    data.priority = 1;
+  } else {
+    data.priority = getCard.length + 1;
+  }
+
   const newCard = await CardModel.create(data);
   if (!newCard) {
     throw new InternalServerError("Fail to create");
@@ -13,7 +21,6 @@ export const createCard = async (data: ICreateCard) => {
 
 export const getCardById = async (id: string) => {
   const cardDetail = await CardModel.getById(id);
-  console.log(cardDetail);
   if (!cardDetail) {
     throw new NotFoundError("Not Found");
   }

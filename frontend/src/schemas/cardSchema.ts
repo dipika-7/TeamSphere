@@ -7,6 +7,6 @@ export const createCardSchema = yup.object().shape({
     .date()
     .required("Deadline is required")
     .typeError("Please enter a valid date"),
-  //   assignedTo: yup.string().required("Assigned To is required"),
-  assignedTo: yup.date().required().typeError("Please enter a valid date"),
+  assignedTo: yup.string().required("Assigned To is required"),
+  // assignedTo: yup.date().required().typeError("Please enter a valid date"),
 });
