@@ -4,126 +4,145 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
     <link rel="stylesheet" href="../../styles/style.css" />
+    <link rel="stylesheet" href="./drag.css" />
+    <script type="module" src="./drag.ts"></script>
     <script type="module" src="../../services/checkAuth.ts"></script>
+    <title>Dashboard</title>
   </head>
 
   <body>
-    <div id="navbar-container"></div>
-    <div id="card-container"></div>
+    <div id="main-container">
+      <div id="navbar-container"></div>
 
-    <div class="container mt-5">
-      <div class="user-profile">
+      <div class="container-fluid">
+        <!-- <div class="user-profile">
         <p>User Profile</p>
         <p id="user-name"></p>
         <p id="user-designation"></p>
-      </div>
-
-      <div class="user-team">
-        <p>Your Teams</p>
-        <form class="row needs-validation" id="team-form" novalidate>
-          <div class="col-md-12">
-            <button type="submit" id="add-team">+</button>
-            <input type="text" name="name" id="team-name" required />
-            <input type="text" name="description" id="team-description" />
-          </div>
-        </form>
-        <ul id="team-list"></ul>
-      </div>
-
-      <div id="team-detail"></div>
-      <div id="list-container">
-        <div id="list"></div>
-
-        <div id="add-card-container" class="d-none">
-          <div class="col-md-5 mx-auto">
-            <div class="card p-4">
-              <h3 class="text-center">Add Card</h3>
+      </div> -->
+        <div class="row container-height">
+          <!-- sidebar start -->
+          <div class="team-list-container bg-dark col-md-2">
+            <div class="user-team">
+              <div class="your-team d-flex justify-content-between">
+                <p class="text-white mt-3 text-lg heading">Your Teams</p>
+                <button
+                  class="btn text-white btn-lg heading mt-1"
+                  id="add-team-btn"
+                >
+                  +
+                </button>
+              </div>
               <form
-                class="row g-3 needs-validation"
-                id="add-card-form"
+                class="row needs-validation d-none"
+                id="team-form"
                 novalidate
               >
-                <div class="col-md-12">
-                  <label for="title" class="form-label">Title</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="title"
-                    id="card-title"
-                    required
-                  />
-                  <div class="invalid-feedback" id="title-feedback"></div>
-                </div>
-                <div class="col-md-12">
-                  <label for="description" class="form-label"
-                    >Description</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="description"
-                    id="card-description"
-                    required
-                  />
-                  <div class="invalid-feedback" id="description-feedback"></div>
-                </div>
-                <div class="col-md-12">
-                  <label for="deadline" class="form-label">Deadline</label>
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="deadline"
-                    id="card-deadline"
-                    required
-                  />
-                  <div class="invalid-feedback" id="deadline-feedback"></div>
-                </div>
-                <!-- <div class="col-md-12">
-                  <label for="assignedTo" class="form-label">Assigned to</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="assignedTo"
-                    id="card-assignedTo"
-                    required
-                  />
-                  <div
-                    class="invalid-feedback"
-                    id="card-assignedTo-feedback"
-                  ></div>
-                </div> -->
-                <div class="col-lg-12">
-                  <label for="assignedTo" class="form-label col-md-5"
-                    >Assigned to</label
-                  >
-                  <div class="input-group mb-3">
-                    <select
-                      class="custom-select form-control"
-                      name="assignedTo"
-                      id="card-assignedTo"
-                    >
-                      <option selected disabled>Choose...</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <button class="btn btn-info" type="submit">Add Card</button>
+                <div class="col-lg-6">
+                  <input type="text" name="name" id="team-name" required />
+                  <input type="text" name="description" id="team-description" />
+                  <button type="submit" id="add-team">Add Team</button>
                 </div>
               </form>
+              <ul id="team-list" class="text-white"></ul>
             </div>
           </div>
+          <!-- sidebar end -->
+
+          <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px- bg-main">
+            <!-- team detail and add user button start -->
+            <div
+              class="container d-flex justify-content-between mt-3 d-none"
+              id="about-team"
+            >
+              <div id="team-detail"></div>
+              <div id="add-user">
+                <button class="btn btn-info">Add User</button>
+              </div>
+            </div>
+            <!-- team detail and add user button start -->
+
+            <div class="content team-detail-container">
+              <div class="board" id="list-container">
+                <div id="list" class="lanes"></div>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
-      <!-- <div id="card-group">
-        <ul id="card-list">
-          <div id="card-item"></div>
-        </ul>
-      </div> -->
+      <button class="btn btn-info" id="logout">Logout</button>
     </div>
-    <button class="btn btn-info" id="logout">Logout</button>
+
+    <!-- add card form start -->
+    <div id="add-card-container" class="d-none row">
+      <div class="col-lg-7 col-md-5 mx-auto">
+        <div class="card p-4">
+          <div class="card-title d-flex justify-content-between">
+            <h3 class="heading">Add Card</h3>
+            <button class="btn" id="card-close-btn">
+              <i class="ph ph-x-circle icon-size"></i>
+            </button>
+          </div>
+          <form class="row g-3 needs-validation" id="add-card-form" novalidate>
+            <div class="col-md-12">
+              <label for="title" class="form-label">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                name="title"
+                id="card-title"
+                required
+              />
+              <div class="invalid-feedback" id="title-feedback"></div>
+            </div>
+            <div class="col-md-12">
+              <label for="description" class="form-label">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                name="description"
+                id="card-description"
+                required
+              />
+              <div class="invalid-feedback" id="description-feedback"></div>
+            </div>
+            <div class="col-md-12">
+              <label for="deadline" class="form-label">Deadline</label>
+              <input
+                type="date"
+                class="form-control"
+                name="deadline"
+                id="card-deadline"
+                required
+              />
+              <div class="invalid-feedback" id="deadline-feedback"></div>
+            </div>
+            <div class="col-lg-12">
+              <label for="assignedTo" class="form-label col-md-5"
+                >Assigned to</label
+              >
+              <div class="input-group mb-3">
+                <select
+                  class="custom-select form-control"
+                  name="assignedTo"
+                  id="card-assignedTo"
+                >
+                  <option selected disabled>Choose...</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12">
+              <button class="btn btn-info" type="submit">Add Card</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- add card form end -->
+
     <script type="module" src="./navbar.ts"></script>
     <script type="module" src="./script.ts"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
   </body>
 </html>
