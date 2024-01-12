@@ -36,7 +36,13 @@ export const login = async (
 
     const data = await authService.login(body);
 
-    sendMail({ email: "dipikasuwal77@gmail.com", message: "Welcome Test" });
+    sendMail({
+      email: "dipikasuwal77@gmail.com",
+      subject: "Added to Team",
+      username: "dipika",
+      teamName: "Team Collaborate",
+      teamDescription: "Team to collaborate and perform better performance",
+    });
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Login successfully",
       data,
