@@ -9,10 +9,10 @@ export default class UserTeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.team",
+        teamId: "t.name",
         userId: "u.username",
       })
-      .from("user_teams as ut")
+      .from("user_team as ut")
       .join("users as u", "ut.userId", "=", "u.id")
       .join("teams as t", "ut.teamId", "=", "t.id")
       .where({ "ut.id": id, "ut.isDeleted": false })
@@ -23,30 +23,52 @@ export default class UserTeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.team",
+        teamId: "t.name",
         userId: "u.username",
       })
-      .from("user_teams as ut")
+      .from("user_team as ut")
       .join("users as u", "ut.userId", "=", "u.id")
       .join("teams as t", "ut.teamId", "=", "t.id")
       .where({ "ut.userId": userId, "ut.isDeleted": false });
   }
 
-  static async getByTeamId(teamId: string) {
+  static async getByTeamId(userId: string, teamId: string) {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.team",
+        teamId: "t.name",
         userId: "u.username",
       })
-      .from("user_teams as ut")
+      .from("user_team as ut")
       .join("users as u", "ut.userId", "=", "u.id")
       .join("teams as t", "ut.teamId", "=", "t.id")
-      .where({ "ut.teamId": teamId, "ut.isDeleted": false });
+      .where("ut.userId", "<>", userId)
+      .where({
+        "ut.teamId": teamId,
+        "ut.isDeleted": false,
+      });
+  }
+
+  static async getByUserIdAndTeamId(userId: string, teamId: string) {
+    return this.queryBuilder()
+      .select({
+        id: "ut.id",
+        teamId: "t.name",
+        userId: "u.username",
+      })
+      .from("user_team as ut")
+      .join("users as u", "ut.userId", "=", "u.id")
+      .join("teams as t", "ut.teamId", "=", "t.id")
+      .where({
+        "ut.userId": userId,
+        "ut.teamId": teamId,
+        "ut.isDeleted": false,
+      })
+      .first();
   }
 
   static async create(team: ICreateUserTeam) {
-    return this.queryBuilder().insert(team).table("user_team");
+    return this.queryBuilder().insert(team).table("user_team").returning("*");
   }
 
   static async update(id: string, team: IUpdateUserTeam) {

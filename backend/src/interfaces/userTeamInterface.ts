@@ -1,10 +1,10 @@
-export interface IUesrTeam {
+export interface IUserTeam {
   id: string;
-  user_id: string;
-  team_id: string;
+  userId: string;
+  teamId: string;
   isDeleted?: boolean;
 }
 
-export interface ICreateUserTeam extends Omit<IUesrTeam, "id"> {}
+export interface ICreateUserTeam extends Omit<IUserTeam, "id"> {}
 
 export interface IUpdateUserTeam extends Partial<ICreateUserTeam> {}

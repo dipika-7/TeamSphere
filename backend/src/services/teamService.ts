@@ -12,8 +12,8 @@ export const createTeam = async (data: ICreateTeam) => {
     throw new InternalServerError("Fail to update");
   }
   const userTeamRelation = await UserTeamService.createUserTeam({
-    user_id: newTeam[0].createdBy,
-    team_id: newTeam[0].id,
+    userId: newTeam[0].createdBy,
+    teamId: newTeam[0].id,
   });
 
   const createList = await ListService.createListGroup(newTeam[0].id);
