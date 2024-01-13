@@ -1,14 +1,17 @@
 import { IPartialTeam } from "../interfaces/team";
 import { http } from "./httpService";
-import { showToastMessage } from "../utils/responseUtil";
 import { AxiosError } from "axios";
-import { headers } from "../utils/authHeaderUtil";
+
+import { showToastMessage } from "../utils/responseUtil";
+import { TEAM_ENDPOINTS } from "../constants/endpoint";
+
+const accessToken = localStorage.getItem("accessToken");
 
 export async function createTeam(team: IPartialTeam) {
   try {
-    const response = await http.post("/teams/", team, { headers });
+    console.log("createTeam");
+    const response = await http.post(TEAM_ENDPOINTS.TEAM, team);
 
-    console.log("Team created", response, response.status);
     if (response.status === 200) {
       showToastMessage("success", response.data.message);
     }
@@ -22,9 +25,8 @@ export async function createTeam(team: IPartialTeam) {
 
 export async function getTeamById(id: string) {
   try {
-    const response = await http.get(`/teams/${id}`, { headers });
-
-    console.log("Team get");
+    console.log("getTeamById");
+    const response = await http.get(`${TEAM_ENDPOINTS.TEAM}/${id}`);
     if (response.status === 200) {
       return response.data.data;
     }
@@ -38,11 +40,14 @@ export async function getTeamById(id: string) {
 
 export async function getTeamsByUserId() {
   try {
-    const response = await http.get("/teams", { headers });
+    console.log("getTeamsByUserId");
 
-    console.log("Team get by user id");
-    if (response.status === 200) {
-      return response.data.data;
+    if (accessToken) {
+      const response = await http.get(TEAM_ENDPOINTS.TEAM);
+
+      if (response.status === 200) {
+        return response.data.data;
+      }
     }
   } catch (error) {
     console.log({ error });

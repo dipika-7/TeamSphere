@@ -1,13 +1,15 @@
+import { AxiosError } from "axios";
+
 import { http } from "./httpService";
 import { showToastMessage } from "../utils/responseUtil";
-import { AxiosError } from "axios";
-import { headers } from "../utils/authHeaderUtil";
+import { LIST_ENDPOINTS } from "../constants/endpoint";
 
 export async function getListByTeamId(teamId: string) {
   try {
-    const response = await http.get(`/lists/team/${teamId}`, { headers });
+    const response = await http.get(
+      `${LIST_ENDPOINTS.LISTS_BY_TEAM}/${teamId}`
+    );
 
-    console.log("List get");
     if (response.status === 200) {
       return response.data.data;
     }

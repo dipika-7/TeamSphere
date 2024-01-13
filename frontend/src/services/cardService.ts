@@ -1,12 +1,15 @@
+import { AxiosError } from "axios";
+
 import { http } from "./httpService";
 import { showToastMessage } from "../utils/responseUtil";
-import { AxiosError } from "axios";
-import { headers } from "../utils/authHeaderUtil";
 import { IPartialCard } from "../interfaces/card";
+import { CARD_ENDPOINTS } from "../constants/endpoint";
 
 export async function getCardByListId(listId: string) {
   try {
-    const response = await http.get(`/cards/list/${listId}`, { headers });
+    const response = await http.get(
+      `${CARD_ENDPOINTS.CARDS_BY_LISTID}/${listId}`
+    );
 
     if (response.status === 200) {
       return response.data.data;
@@ -21,7 +24,7 @@ export async function getCardByListId(listId: string) {
 
 export async function createCard(card: IPartialCard) {
   try {
-    const response = await http.post("/cards/", card, { headers });
+    const response = await http.post(CARD_ENDPOINTS.CARDS, card);
     if (response.status === 200) {
       showToastMessage("success", response.data.message);
     }
@@ -35,7 +38,7 @@ export async function createCard(card: IPartialCard) {
 
 export async function updateCard(cardId: string, card: IPartialCard) {
   try {
-    const response = await http.put(`/cards/${cardId}`, card, { headers });
+    const response = await http.put(`${CARD_ENDPOINTS.CARDS}/${cardId}`, card);
     if (response.status === 200) {
       // showToastMessage("success", response.data.message);
       return;

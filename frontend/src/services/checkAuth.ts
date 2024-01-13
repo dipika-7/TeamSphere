@@ -1,5 +1,5 @@
+import { USER_ENDPOINTS } from "../constants/endpoint";
 import { http } from "./httpService";
-import { headers } from "../utils/authHeaderUtil";
 
 const checkAuth = async () => {
   const accessToken = localStorage.getItem("accessToken") || "";
@@ -21,7 +21,7 @@ const checkAuth = async () => {
   // }
   try {
     if (accessToken !== "") {
-      const response = await http.get("/users/profile", { headers });
+      const response = await http.get(USER_ENDPOINTS.PROFILE);
       console.log(response.data.data);
       return true;
     } else {

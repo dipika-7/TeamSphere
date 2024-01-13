@@ -1,11 +1,11 @@
 import { http } from "./httpService";
 import { showToastMessage } from "../utils/responseUtil";
 import { AxiosError } from "axios";
-import { headers } from "../utils/authHeaderUtil";
+import { USER_ENDPOINTS } from "../constants/endpoint";
 
 export async function getUserByUsername(username: string) {
   try {
-    const response = await http.get(`/users/${username}`, { headers });
+    const response = await http.get(`${USER_ENDPOINTS.USERS}/${username}`);
 
     console.log("User get by username");
     if (response.status === 200) {
