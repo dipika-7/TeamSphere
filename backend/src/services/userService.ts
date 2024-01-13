@@ -12,6 +12,15 @@ export const getUserById = async (id: string) => {
   return userDetail;
 };
 
+export const getUserToAdd = async (userId: string) => {
+  const userDetail = await UserModel.listOfUsers(userId);
+  if (!userDetail) {
+    throw new NotFoundError("Not Found");
+  }
+
+  return userDetail;
+};
+
 export const getUserByUsername = async (username: string) => {
   const userDetail = await UserModel.getByUsername(username);
   if (!userDetail) {

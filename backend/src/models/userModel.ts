@@ -13,6 +13,18 @@ export default class UserModel extends BaseModel {
       .from("users");
   }
 
+  static async listOfUsers(userId: string) {
+    return this.queryBuilder()
+      .select({
+        id: "id",
+        username: "username",
+        email: "email",
+        designation: "designation",
+      })
+      .from("users")
+      .where("id", "<>", userId);
+  }
+
   static async getById(id: string) {
     return this.queryBuilder()
       .select({

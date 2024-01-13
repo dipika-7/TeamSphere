@@ -6,6 +6,7 @@ import { updateUserSchema } from "../schemas/userSchema";
 import {
   checkTokenvalid,
   deleteUser,
+  getListOfUsersToAdd,
   getUserByUsername,
   getUserProfile,
   updateUser,
@@ -18,6 +19,8 @@ router
   .get(Auth, getUserProfile)
   .put(Auth, validateReqBody(updateUserSchema), updateUser)
   .patch(Auth, deleteUser);
+
+router.route("/list").get(Auth, getListOfUsersToAdd);
 
 router.route("/profile").get(Auth, getUserProfile);
 

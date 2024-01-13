@@ -27,6 +27,27 @@ export const getUserProfile = async (
   }
 };
 
+export const getListOfUsersToAdd = async (
+  req: Request & { user?: JwtPayload },
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req?.user?.id;
+    if (!userId) {
+      throw new NotFoundError("User Not Found");
+    }
+
+    const result = await userService.getUserToAdd(userId);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully got user list to add in team",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const checkTokenvalid = async (
   req: Request & { user?: JwtPayload },
   res: Response,
