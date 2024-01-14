@@ -87,6 +87,28 @@ export const updateCard = async (
   }
 };
 
+export const updateCardStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      throw new NotFoundError("Card Not Found");
+    }
+
+    const result = await cardService.updateCardStatus(id);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully updated",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const deleteCard = async (
   req: Request,
   res: Response,

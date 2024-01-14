@@ -48,6 +48,17 @@ export const updateCard = async (id: string, data: IUpdateCard) => {
   return updateCard;
 };
 
+export const updateCardStatus = async (id: string) => {
+  const cardDetail = await getCardById(id);
+  const status = cardDetail.status === "incomplete" ? "complete" : "incomplete";
+  const updateCard = await CardModel.update(id, { status });
+  if (!updateCard) {
+    throw new InternalServerError("Fail to update");
+  }
+
+  return updateCard;
+};
+
 export const deleteCard = async (id: string) => {
   const cardDetail = await getCardById(id);
   const updateCard = await CardModel.update(id, { isDeleted: true });

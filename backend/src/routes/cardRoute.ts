@@ -8,6 +8,7 @@ import {
   getCardDetailById,
   getCardByListId,
   updateCard,
+  updateCardStatus,
 } from "../controllers/cardController";
 import { createCardSchema, updateCardSchema } from "../schemas/cardSchema";
 
@@ -20,6 +21,8 @@ router
   .get(Auth, getCardDetailById)
   .put(Auth, validateReqBody(updateCardSchema), updateCard)
   .delete(Auth, deleteCard);
+
+router.route("/status/:id").put(Auth, updateCardStatus);
 
 router.route("/list/:id").get(Auth, getCardByListId);
 

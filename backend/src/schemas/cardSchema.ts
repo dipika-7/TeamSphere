@@ -49,6 +49,10 @@ const updateCardSchema = Joi.object({
   assignedTo: Joi.string().uuid({ version: "uuidv4" }).messages({
     "string.uuid": "assignedTo must be a valid UUID",
   }),
+  priority: Joi.number().min(1).messages({
+    "number.base": "Priority must be a number",
+    "number.min": "Priority must be greater than or equal to 1",
+  }),
 });
 
 export { createCardSchema, updateCardSchema };
