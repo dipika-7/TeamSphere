@@ -20,7 +20,7 @@ router
   .put(Auth, validateReqBody(updateUserSchema), updateUser)
   .patch(Auth, deleteUser);
 
-router.route("/list").get(Auth, getListOfUsersToAdd);
+router.route("/list/:teamId").get(Auth, getListOfUsersToAdd);
 
 router.route("/profile").get(Auth, getUserProfile);
 

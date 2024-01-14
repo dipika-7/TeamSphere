@@ -23,6 +23,8 @@ router
   .get(Auth, validateReqQuery(UserTeamSchema), getUserTeamByUserIdAndTeamId)
   .post(Auth, validateReqBody(UserTeamSchema), createUserTeam);
 
+router.route("/user").get(Auth, getUserTeamByUserId);
+
 router
   .route("/:id")
   .get(Auth, getUserTeamDetailById)
@@ -30,8 +32,6 @@ router
   .delete(Auth, deleteUserTeam);
 
 router.route("/team/:id").get(Auth, getUserTeamByTeamId);
-
-router.route("/user/:id").get(Auth, getUserTeamByUserId);
 
 export default router;
 // acde4a32-6d3c-4c73-b96f-a14256744cf9
