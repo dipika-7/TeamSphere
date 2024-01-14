@@ -28,17 +28,6 @@ export const sendMail = (data: IMail) => {
     to: data.email,
     html: compiledTemplate(data),
   };
-  console.log("mailOptions", mailOptions);
-  // change credentials before uncomment
-  transporter.sendMail(mailOptions, (error, response) => {
-    if (error) {
-      //error
-      console.log("mailerror", { error });
-    } else {
-      //success
-      console.log("success");
-    }
-  });
 
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
