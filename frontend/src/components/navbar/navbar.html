@@ -9,7 +9,7 @@
     <nav class="navbar navbar-expand-lg bg-dark">
       <div class="container-fluid mx-3">
         <div class="logo">
-          <a class="navbar-brand" href="#">
+          <a class="navbar-brand" href="../../views/dashboard/">
             <img
               src="../../assets/images/TeamSphereWhite.png"
               alt="Logo"
@@ -26,20 +26,20 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span
+            class="navbar-toggler-icon"
+            style="background-color: white; padding: 20px"
+          ></span>
         </button>
         <div class="collapse navbar-collapse navbar-group">
           <div class="navbar-nav" id="checkNav">
-            <a class="nav-link notification text-white" href="#"
-              >Notification</a
-            >
             <a class="nav-link text-white" href="../../views/profile/"
               >Profile</a
             >
+            <button class="btn btn-info mx-2" id="logout-btn">Logout</button>
           </div>
         </div>
       </div>
     </nav>
   </body>
-  <script type="module" src="./navbar.ts"></script>
 </html>
