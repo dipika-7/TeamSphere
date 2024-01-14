@@ -48,12 +48,29 @@ export async function login(user: { email: string; password: string }) {
 
 export async function getNewAccessToken(refreshToken: string) {
   try {
-    const response = await http.post(AUTH_ENDPOINTS.REFRESH, refreshToken);
-    console.log(response);
+    const response = await http.post(AUTH_ENDPOINTS.REFRESH, { refreshToken });
     if (response.status == 200) {
       localStorage.setItem("accessToken", response.data.data.accessToken);
       localStorage.setItem("refreshToken", response.data.data.refreshToken);
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
+  }
+}
+
+export async function logout(refreshToken: string) {
+  try {
+    const response = await http.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken });
+    console.log(response);
+    if (response.status == 200) {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       showToastMessage("success", response.data.message);
+      setTimeout(() => {
+        window.location.href = "/views/login";
+      }, 1000);
     }
   } catch (error) {
     if (error instanceof AxiosError) {
