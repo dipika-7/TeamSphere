@@ -3,9 +3,7 @@ import { http } from "./httpService";
 import { AxiosError } from "axios";
 
 import { showToastMessage } from "../utils/responseUtil";
-import { TEAM_ENDPOINTS } from "../constants/endpoint";
-
-const accessToken = localStorage.getItem("accessToken");
+import { TEAM_ENDPOINTS, USER_TEAM_ENDPOINTS } from "../constants/endpoint";
 
 export async function createTeam(team: IPartialTeam) {
   try {
@@ -41,18 +39,61 @@ export async function getTeamById(id: string) {
 export async function getTeamsByUserId() {
   try {
     console.log("getTeamsByUserId");
+    const response = await http.get(TEAM_ENDPOINTS.TEAM);
 
-    if (accessToken) {
-      const response = await http.get(TEAM_ENDPOINTS.TEAM);
-
-      if (response.status === 200) {
-        return response.data.data;
-      }
+    if (response.status === 200) {
+      return response.data.data;
     }
   } catch (error) {
     console.log({ error });
     if (error instanceof AxiosError) {
       showToastMessage("error", error.response?.data.message);
     }
+  }
+}
+
+export async function getUserTeamByTeamId(teamId: string) {
+  try {
+    const response = await http.get(
+      `${USER_TEAM_ENDPOINTS.USER_TEAM_BY_TEAM_ID}/${teamId}`
+    );
+
+    if (response.status === 200) {
+      return response.data.data;
+    }
+  } catch (error) {
+    console.log({ error });
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
+  }
+}
+
+export async function addUserInTeam(data: { userId: string; teamId: string }) {
+  try {
+    const response = await http.post(USER_TEAM_ENDPOINTS.USER_TEAM, data);
+    if (response.status === 200) {
+      showToastMessage("success", response.data.message);
+      return response.data.data;
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
+  }
+}
+
+export async function checkTeamCreateByUser(teamId: string) {
+  try {
+    const response = await http.get(
+      `${TEAM_ENDPOINTS.USER_CHECK_TEAM}/${teamId}`
+    );
+    if (response.status === 200) {
+      return true;
+    }
+  } catch (error) {
+    // if (error instanceof AxiosError) {
+    return false;
+    // }
   }
 }
