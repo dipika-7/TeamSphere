@@ -8,6 +8,7 @@ import BadRequestError from "../errors/badRequestError";
 import NotFoundError from "../errors/notFoundError";
 import ConflictError from "../errors/conflictError";
 import { GLOBALVARS } from "../constants/statusCode";
+import UnAuthorizedError from "../errors/unAuthorizedError";
 
 const logger = loggerWithNameSpace("ErrorHandler");
 
@@ -36,6 +37,12 @@ export function genericErrorHandler(
   }
 
   if (error instanceof UnauthenticatedError) {
+    return res
+      .status(GLOBALVARS.unauthenticated)
+      .json({ message: error.message });
+  }
+
+  if (error instanceof UnAuthorizedError) {
     return res
       .status(GLOBALVARS.unauthenticated)
       .json({ message: error.message });
