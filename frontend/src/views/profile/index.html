@@ -4,7 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
+    <link rel="stylesheet" href="../../styles/style.css" />
+    <script type="module" src="../../services/checkAuth.ts"></script>
   </head>
-  <body></body>
-  <script type="module" src="./profile.ts"></script>
+  <body>
+    <div id="navbar-container"></div>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-5">
+          <div class="card p-4">
+            <h3 class="text-center">Profile</h3>
+            <form
+              class="row g-3 needs-validation"
+              id="register-form"
+              novalidate
+            >
+              <div class="col-md-12">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group has-validation">
+                  <p id="profile-username" class="font-weight-bold"></p>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label for="email" class="form-label">Email</label>
+                <p id="profile-email" class="font-weight-bold"></p>
+              </div>
+              <div class="col-md-12">
+                <label for="designation" class="form-label">Designation</label>
+                <p id="profile-designation" class="font-weight-bold"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="module" src="./script.ts"></script>
 </html>
