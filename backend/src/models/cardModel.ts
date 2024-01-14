@@ -13,7 +13,7 @@ export default class CardModel extends BaseModel {
         deadline: "deadline",
         priority: "priority",
         assignedTo: "u.username",
-        listId: "l.title",
+        listId: "l.id",
       })
       .from("cards as c")
       .join("lists as l", "l.id", "=", "c.listId")
@@ -32,7 +32,7 @@ export default class CardModel extends BaseModel {
         deadline: "deadline",
         priority: "priority",
         assignedTo: "u.username",
-        listId: "l.title",
+        listId: "l.id",
       })
       .from("cards as c")
       .join("lists as l", "l.id", "=", "c.listId")

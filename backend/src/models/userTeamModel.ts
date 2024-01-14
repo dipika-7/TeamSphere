@@ -23,7 +23,8 @@ export default class UserTeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.name",
+        teamId: "t.id",
+        teamName: "t.name",
         userId: "u.username",
       })
       .from("user_team as ut")
@@ -53,8 +54,8 @@ export default class UserTeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.name",
-        userId: "u.username",
+        teamId: "ut.teamId",
+        userId: "ut.userId",
       })
       .from("user_team as ut")
       .join("users as u", "ut.userId", "=", "u.id")

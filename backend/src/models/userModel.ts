@@ -12,17 +12,23 @@ export default class UserModel extends BaseModel {
       })
       .from("users");
   }
-
-  static async listOfUsers(userId: string) {
+  static async listOfUsers(userId: string, teamId: string) {
     return this.queryBuilder()
       .select({
-        id: "id",
+        id: "u.id",
         username: "username",
         email: "email",
         designation: "designation",
       })
-      .from("users")
-      .where("id", "<>", userId);
+      .from("users as u")
+      .leftJoin("user_team", "u.id", "=", "user_team.user_id")
+      .whereNot("u.id", userId)
+      .andWhere((builder) => {
+        builder
+          .whereNull("user_team.team_id")
+          .orWhere("user_team.team_id", "<>", teamId);
+      })
+      .groupBy("u.id");
   }
 
   static async getById(id: string) {
