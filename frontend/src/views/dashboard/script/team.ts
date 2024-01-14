@@ -105,30 +105,54 @@ export async function renderTeam() {
 addTeamCloseButton.addEventListener("click", (e) => {
   e.preventDefault();
   closeCardForm();
+
+  //reset form
+  teamNameInput.value = "";
+  teamDescriptionInput.value = "";
 });
 
 teamFormElement.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  // console.log("create team form");
-  teamNameInput.classList.remove("is-invalid");
-  teamDescriptionInput.classList.remove("is-invalid");
+  try {
+    e.preventDefault();
+    // console.log("create team form");
+    teamNameInput.classList.remove("is-invalid");
+    teamDescriptionInput.classList.remove("is-invalid");
 
-  const name = teamNameInput.value;
-  const description = teamDescriptionInput.value;
-  const data = {
-    name,
-    description,
-  };
-  // if (validateInput(data)) {
-  // console.log("Login success");
-  await createTeam(data);
-  teamFormElement.classList.add("d-none");
-  await renderTeam();
-  // }
-  return;
+    const name = teamNameInput.value;
+    const description = teamDescriptionInput.value;
+    const data = {
+      name,
+      description,
+    };
+    const validateData = await validateFormData(createTeamSchema, data);
+    console.log(validateData);
+    if (validateData) {
+      await createTeam(data);
+      teamFormElement.classList.add("d-none");
+      await renderTeam();
+    }
+    return;
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      e.inner.forEach((error) => {
+        displayValidationError(teamFormElement, error.path!, error.message);
+      });
+    }
+    if (e instanceof AxiosError) {
+      showToastMessage("error", e.response?.data.message);
+    }
+  }
 });
 
 addTeamButton.addEventListener("click", (e) => {
   e.preventDefault();
   teamFormElement.classList.remove("d-none");
+});
+
+teamNameInput.addEventListener("input", () => {
+  teamNameInput.classList.remove("is-invalid");
+});
+
+teamDescriptionInput.addEventListener("input", () => {
+  teamDescriptionInput.classList.remove("is-invalid");
 });
