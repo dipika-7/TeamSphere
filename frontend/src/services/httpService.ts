@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_URL } from "../constants/config";
-import { getNewAccessToken } from "./authService";
+import { getNewAccessToken, logout } from "./authService";
 
 export const http = axios.create({
   baseURL: API_URL,
@@ -9,7 +9,6 @@ export const http = axios.create({
 
 http.interceptors.request.use(
   async (config) => {
-    console.log(config);
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
@@ -24,13 +23,20 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log(error);
     if (error.response.status === 401) {
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {
-        await getNewAccessToken(refreshToken);
-        // Retry the original request
+        try {
+          await getNewAccessToken(refreshToken);
+          // Retry the original request
+          return http(error.config);
+        } catch (refreshError) {
+          console.log("Error refreshing access token:", refreshError);
+          await logout(refreshToken);
+          return Promise.reject(refreshError);
+        }
       }
-      return axios(error.config);
     }
     return Promise.reject(error);
   }
