@@ -58,7 +58,6 @@ export const getUserTeamByTeamId = async (
     const teamId = req.params.id;
     const userId = req.user.id;
     const result = await userTeamService.getUserTeamByTeamId(userId, teamId);
-    console.log("rs", result);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got userTeam detail",
       data: result,
@@ -69,14 +68,13 @@ export const getUserTeamByTeamId = async (
 };
 
 export const getUserTeamByUserId = async (
-  req: Request,
+  req: Request & { user?: JwtPayload },
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const teamId = req.params.id;
-
-    const result = await userTeamService.getUserTeamByUserId(teamId);
+    const userId = req?.user?.id;
+    const result = await userTeamService.getUserTeamByUserId(userId);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got userTeam detail",
       data: result,

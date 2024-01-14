@@ -33,12 +33,13 @@ export const getListOfUsersToAdd = async (
   next: NextFunction
 ) => {
   try {
+    const teamId = req.params.teamId;
     const userId = req?.user?.id;
     if (!userId) {
       throw new NotFoundError("User Not Found");
     }
 
-    const result = await userService.getUserToAdd(userId);
+    const result = await userService.getUserToAdd(userId, teamId);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got user list to add in team",
       data: result,
