@@ -34,13 +34,10 @@ registerForm.addEventListener("submit", async (e) => {
     if (validateData) {
       delete user.confirmPassword;
       await register(user);
-
-      setTimeout(() => {
-        window.location.href = "/views/login/";
-      }, 2000);
     }
     return;
   } catch (e) {
+    console.log(e);
     if (e instanceof ValidationError) {
       e.inner.forEach((error) => {
         displayValidationError(registerForm, error.path!, error.message);

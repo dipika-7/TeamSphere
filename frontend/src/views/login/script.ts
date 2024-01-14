@@ -26,15 +26,10 @@ loginForm.addEventListener("submit", async (e) => {
     const validateData = await validateFormData(loginSchema, data);
     console.log(validateData);
     if (validateData) {
-      console.log("Login success");
       await login(data);
-      setTimeout(() => {
-        window.location.href = "/views/dashboard/";
-      }, 2000);
     }
     return;
   } catch (e) {
-    console.log(e);
     if (e instanceof ValidationError) {
       e.inner.forEach((error) => {
         displayValidationError(loginForm, error.path!, error.message);

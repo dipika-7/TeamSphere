@@ -15,8 +15,6 @@ export async function fetchAndInsertNavBarContent() {
     logoutBtn.addEventListener("click", async (e) => {
       e.preventDefault();
       const refreshToken = localStorage.getItem("refreshToken");
-      //   const result = await logout(refreshToken);
-      console.log(refreshToken);
       if (refreshToken) {
         try {
           const result = await logout(refreshToken);
