@@ -9,11 +9,13 @@ export const AUTH_ENDPOINTS = {
 export const USER_ENDPOINTS = {
   PROFILE: "/users/profile",
   USERS: "/users",
+  USERS_LIST: "/users/list",
 };
 
 export const CARD_ENDPOINTS = {
   CARDS_BY_LISTID: "/cards/list",
   CARDS: "/cards",
+  UPDATE_CARD: "/cards/status",
 };
 
 export const LIST_ENDPOINTS = {
@@ -22,4 +24,11 @@ export const LIST_ENDPOINTS = {
 
 export const TEAM_ENDPOINTS = {
   TEAM: "/teams",
+  USER_CHECK_TEAM: "/teams/check-team",
+};
+
+export const USER_TEAM_ENDPOINTS = {
+  USER_TEAM: "/user-team",
+  USER_TEAM_BY_TEAM_ID: "/user-team/team",
+  USER_TEAM_BY_USER_ID: "/user-team/user",
 };
