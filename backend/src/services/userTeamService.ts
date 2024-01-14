@@ -1,10 +1,13 @@
 import BadRequestError from "../errors/badRequestError";
 import InternalServerError from "../errors/internalServerError";
 import NotFoundError from "../errors/notFoundError";
+import { sendMail } from "../helpers/mailHelper";
 import {
   ICreateUserTeam,
   IUpdateUserTeam,
 } from "../interfaces/userTeamInterface";
+import TeamModel from "../models/teamModel";
+import UserModel from "../models/userModel";
 import UserTeamModel from "../models/userTeamModel";
 
 export const createUserTeam = async (data: ICreateUserTeam) => {
@@ -17,6 +20,16 @@ export const createUserTeam = async (data: ICreateUserTeam) => {
   }
 
   const newUserTeam = await UserTeamModel.create(data);
+
+  const userDetail = await UserModel.getById(data.userId);
+  const teamDetail = await TeamModel.getById(data.teamId);
+  sendMail({
+    email: userDetail.email,
+    subject: "Added to Team",
+    username: userDetail.username,
+    teamName: teamDetail.name,
+    teamDescription: teamDetail.description,
+  });
   if (!newUserTeam) {
     throw new InternalServerError("Fail to update");
   }
