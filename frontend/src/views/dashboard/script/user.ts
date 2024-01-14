@@ -4,7 +4,7 @@ const userCloseButton = document.getElementById(
 import { getUserList } from "../../../services/userService";
 import { IUser } from "../../../interfaces/auth";
 import { closeCardForm } from "./common";
-
+import { activeTeam } from "./team";
 import { addUserInTeam } from "../../../services/teamService";
 const userListElement = document.getElementById(
   "add-users-list"
@@ -26,10 +26,7 @@ const userFormElement = document.getElementById(
 import { createUserTeamSchema } from "../../../schemas/userTeamSchema";
 import { getUserByUsername } from "../../../services/userService";
 
-export async function listOfUserToAddInTeam(
-  element: HTMLElement,
-  activeTeam: string
-) {
+export async function listOfUserToAddInTeam(element: HTMLElement) {
   const userList = await getUserList(activeTeam);
   console.log(userList);
   userList.forEach((user: IUser) => {
@@ -52,9 +49,10 @@ export async function listOfUserToAddInTeam(
 userCloseButton.addEventListener("click", (e) => {
   e.preventDefault();
   closeCardForm();
+  userListElement.selectedIndex = 0;
 });
 
-export async function handleAddUserFormSubmit(e: Event, activeTeam: string) {
+export async function handleAddUserFormSubmit(e: Event) {
   try {
     e.preventDefault();
     const userSelectElement = userFormElement.elements.namedItem(
@@ -92,9 +90,9 @@ export async function handleAddUserFormSubmit(e: Event, activeTeam: string) {
   }
 }
 
-export async function handleAddUserBtn(e: Event, activeTeam: string) {
+export async function handleAddUserBtn(e: Event) {
   e.preventDefault();
-  listOfUserToAddInTeam(userListElement, activeTeam);
+  listOfUserToAddInTeam(userListElement);
 
   addUserContainer?.classList.remove("d-none");
   mainContainer.style.filter = "blur(5px)";

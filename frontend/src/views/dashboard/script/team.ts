@@ -9,12 +9,21 @@ import {
 const buttonElement = document.getElementsByClassName(
   "add-card-btn"
 ) as HTMLCollectionOf<Element>;
-const addUserBtn = document.getElementById("add-user");
+const addUserBtn = document.getElementById("btn-add-user");
 import { getTeamListByUserId } from "../../../services/userService";
 import { renderList } from "./list";
 import { IUserTeam } from "../../../interfaces/user_team";
 import { closeCardForm } from "./common";
-const teamFormElement = document.getElementById("team-form") as HTMLElement;
+import {
+  displayValidationError,
+  validateFormData,
+} from "../../../utils/validateUtil";
+import { createTeamSchema } from "../../../schemas/teamSchema";
+import { ValidationError } from "yup";
+import { AxiosError } from "axios";
+import { showToastMessage } from "../../../utils/responseUtil";
+
+const teamFormElement = document.getElementById("team-form") as HTMLFormElement;
 const teamNameInput = document.getElementById("team-name") as HTMLInputElement;
 const addTeamButton = document.getElementById("add-team-btn") as HTMLElement;
 
@@ -26,6 +35,7 @@ const teamDescriptionInput = document.getElementById(
   "team-description"
 ) as HTMLInputElement;
 
+export let activeTeam: string;
 export async function renderTeamDetail(teamId: string) {
   aboutTeamElement.classList.remove("d-none");
   const teamDetail = await getTeamById(teamId);
@@ -62,11 +72,10 @@ export async function renderTeam() {
 
     // const teamResponse = await http.get("/teams");
     const teamList = await getTeamListByUserId();
-    let activeTeam;
     if (teamList.length > 0) {
       activeTeam = teamList[0].teamId;
       renderTeamDetail(teamList[0].teamId);
-      await renderList(teamList[0].teamId, activeTeam);
+      await renderList(activeTeam);
       await checkTeam(activeTeam);
     } else {
       const noTeamElement = document.createElement("p");
@@ -82,7 +91,7 @@ export async function renderTeam() {
       teamElement.addEventListener("click", async () => {
         activeTeam = team.teamId;
         renderTeamDetail(team.teamId);
-        await renderList(team.teamId, activeTeam);
+        await renderList(activeTeam);
         await checkTeam(activeTeam);
       });
       teamListElement.appendChild(teamElement);

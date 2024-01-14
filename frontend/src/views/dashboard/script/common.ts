@@ -8,6 +8,7 @@ const addTeamContainer = document.getElementById("team-form") as HTMLElement;
 const mainContainer = document.getElementById("main-container") as HTMLElement;
 import { assignedToListInForm } from "./list";
 import { addCardToList } from "./card";
+import { activeTeam } from "./team";
 
 export async function closeCardForm() {
   addCardContainer?.classList.add("d-none");
@@ -18,7 +19,7 @@ export async function closeCardForm() {
   mainContainer.style.pointerEvents = "auto";
 }
 
-export async function renderButton(listId: string, activeTeam: string) {
+export async function renderButton(listId: string) {
   const addCardDivButton = document.createElement("div");
 
   const addCardButton = document.createElement("button");
@@ -26,7 +27,6 @@ export async function renderButton(listId: string, activeTeam: string) {
   addCardButton.innerHTML = "Add Card";
 
   addCardButton.addEventListener("click", async (e) => {
-    console.log("in event listener");
     e.preventDefault();
     addCardContainer.classList.remove("d-none");
 
@@ -37,7 +37,7 @@ export async function renderButton(listId: string, activeTeam: string) {
       "card-assignedTo"
     ) as HTMLSelectElement;
     await assignedToListInForm(assignedTo, activeTeam);
-    addCardToList(listId, activeTeam);
+    addCardToList(listId);
   });
 
   addCardDivButton.appendChild(addCardButton);

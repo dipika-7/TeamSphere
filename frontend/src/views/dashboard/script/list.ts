@@ -7,7 +7,7 @@ import { IUserTeam } from "../../../interfaces/user_team";
 
 const listElement = document.getElementById("list") as HTMLElement;
 
-export async function renderList(teamId: string, activeTeam: string) {
+export async function renderList(teamId: string) {
   const getLists = await getListByTeamId(teamId);
   // console.log("t", getLists);
   listElement.innerHTML = "";
@@ -25,7 +25,7 @@ export async function renderList(teamId: string, activeTeam: string) {
 
     listGroupElement.appendChild(listDetailElement);
     listElement.appendChild(listGroupElement);
-    const buttonElement = await renderButton(list.id, activeTeam);
+    const buttonElement = await renderButton(list.id, teamId);
     listGroupElement?.appendChild(buttonElement);
     await renderCard(list.id);
 

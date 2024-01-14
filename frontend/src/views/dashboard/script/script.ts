@@ -7,16 +7,13 @@ const userFormElement = document.getElementById(
 const addUserBtn = document.getElementById("btn-add-user");
 import { handleAddUserBtn, handleAddUserFormSubmit } from "./user";
 
-let activeTeam: string;
-
 window.onload = async () => {
   fetchAndInsertNavBarContent();
   // renderProfile();
-  activeTeam = await renderTeam();
+  await renderTeam();
+  addUserBtn?.addEventListener("click", (e) => handleAddUserBtn(e));
 };
 
 userFormElement.addEventListener("submit", async (e) =>
-  handleAddUserFormSubmit(e, activeTeam)
+  handleAddUserFormSubmit(e)
 );
-
-addUserBtn?.addEventListener("click", (e) => handleAddUserBtn(e, activeTeam));
