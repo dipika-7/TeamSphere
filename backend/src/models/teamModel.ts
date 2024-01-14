@@ -32,13 +32,26 @@ export default class TeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "t.id",
-        name: "name",
+        // name: "name",
         description: "description",
         createdBy: "users.username",
       })
       .from("teams as t")
-      .join("users", "t.createdBy", "=", "users.id")
+      .join("users", "t.createdBy", "users.id")
       .where({ "t.createdBy": userId, "t.isDeleted": false });
+  }
+
+  static async checkTeamCreatedBy(userId: string, teamId: string) {
+    return this.queryBuilder()
+      .select({
+        id: "t.id",
+        // name: "name",
+        description: "description",
+        createdBy: "users.username",
+      })
+      .from("teams as t")
+      .join("users", "t.createdBy", "users.id")
+      .where({ "t.createdBy": userId, "t.isDeleted": false, "t.id": teamId });
   }
 
   static async create(team: ICreateTeam) {

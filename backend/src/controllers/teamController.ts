@@ -70,6 +70,33 @@ export const getTeamsByUserId = async (
   }
 };
 
+export const checkTeamCreateByUser = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const userId = req?.user?.id;
+    const teamId = req?.params?.id;
+    if (!userId) {
+      throw new NotFoundError("Not Found");
+    }
+
+    const result = await teamService.checkTeamCreateByUser(userId, teamId);
+    if (result) {
+      res.status(GLOBALVARS.successStatusCode).json({
+        message: "You create this team",
+      });
+    } else {
+      res.status(GLOBALVARS.errorStatusCode).json({
+        message: "Created by others",
+      });
+    }
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const updateTeam = async (
   req: Request,
   res: Response,

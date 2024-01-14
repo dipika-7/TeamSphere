@@ -38,6 +38,17 @@ export const getTeamByUserId = async (userId: string) => {
   return teamDetail;
 };
 
+export const checkTeamCreateByUser = async (userId: string, teamId: string) => {
+  const teamDetail = await TeamModel.checkTeamCreatedBy(userId, teamId);
+  if (teamDetail.length <= 0) {
+    return false;
+  } else {
+    return true;
+  }
+
+  return teamDetail;
+};
+
 export const updateTeamProfile = async (id: string, data: IUpdateTeam) => {
   const teamDetail = await getTeamById(id);
 
