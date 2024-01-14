@@ -6,7 +6,7 @@ export const createCardSchema = yup.object().shape({
   deadline: yup
     .date()
     .required("Deadline is required")
+    .min(new Date(), "Date must be greater than or equal to today date")
     .typeError("Please enter a valid date"),
   assignedTo: yup.string().required("Assigned To is required"),
-  // assignedTo: yup.date().required().typeError("Please enter a valid date"),
 });
