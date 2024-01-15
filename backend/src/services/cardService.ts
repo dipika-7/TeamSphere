@@ -37,6 +37,27 @@ export const getCardByListId = async (listId: string) => {
   return cardDetail;
 };
 
+export const getSearchByAssigneeId = async (
+  userId: string,
+  searchTerm: string
+) => {
+  const cardDetail = await CardModel.getSearchByAssigneeId(userId, searchTerm);
+  if (!cardDetail) {
+    throw new NotFoundError("Not Found");
+  }
+
+  return cardDetail;
+};
+
+export const getByAssigneeId = async (userId: string, teamId: string) => {
+  const cardDetail = await CardModel.getByAssigneeId(userId, teamId);
+  if (!cardDetail) {
+    throw new NotFoundError("Not Found");
+  }
+
+  return cardDetail;
+};
+
 export const updateCard = async (id: string, data: IUpdateCard) => {
   const cardDetail = await getCardById(id);
 

@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GLOBALVARS } from "../constants/statusCode";
 import * as cardService from "../services/cardService";
 import NotFoundError from "../errors/notFoundError";
+import { JwtPayload } from "jsonwebtoken";
 
 export const createCard = async (
   req: Request,
@@ -57,6 +58,48 @@ export const getCardByListId = async (
     const result = await cardService.getCardByListId(listId);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got card detail",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getCardSearch = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const searchTerm = req.query.searchTerm || "";
+    const userId = req?.user?.id;
+
+    const result = await cardService.getSearchByAssigneeId(userId, searchTerm);
+    console.log(result);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully got",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const getCardByAssigneeId = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const teamId = req.query.teamId || "";
+    const userId = req.query.userId;
+
+    console.log(userId, teamId);
+
+    const result = await cardService.getByAssigneeId(userId, teamId);
+    console.log(result);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully got",
       data: result,
     });
   } catch (e) {

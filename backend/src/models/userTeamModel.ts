@@ -9,7 +9,8 @@ export default class UserTeamModel extends BaseModel {
     return this.queryBuilder()
       .select({
         id: "ut.id",
-        teamId: "t.name",
+        teamId: "t.id",
+        teamName: "t.name",
         userId: "u.username",
       })
       .from("user_team as ut")
@@ -66,6 +67,23 @@ export default class UserTeamModel extends BaseModel {
         "ut.isDeleted": false,
       })
       .first();
+  }
+  static async getMembersByTeamId(teamId: string) {
+    return this.queryBuilder()
+      .select({
+        id: "ut.id",
+        teamId: "t.id",
+        teamName: "t.name",
+        userId: "u.id",
+        userName: "u.username",
+      })
+      .from("user_team as ut")
+      .join("users as u", "ut.userId", "=", "u.id")
+      .join("teams as t", "ut.teamId", "=", "t.id")
+      .where({
+        "ut.teamId": teamId,
+        "ut.isDeleted": false,
+      });
   }
 
   static async create(team: ICreateUserTeam) {

@@ -10,6 +10,7 @@ import {
   updateUserTeam,
   getUserTeamByUserId,
   getUserTeamByUserIdAndTeamId,
+  getMembersByTeamId,
 } from "../controllers/userTeamController";
 import {
   UserTeamSchema,
@@ -32,6 +33,8 @@ router
   .delete(Auth, deleteUserTeam);
 
 router.route("/team/:id").get(Auth, getUserTeamByTeamId);
+
+router.route("/team-member/:id").get(Auth, getMembersByTeamId);
 
 export default router;
 // acde4a32-6d3c-4c73-b96f-a14256744cf9

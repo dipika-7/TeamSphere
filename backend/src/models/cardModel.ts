@@ -41,6 +41,38 @@ export default class CardModel extends BaseModel {
       .orderBy("priority", "asc");
   }
 
+  static async getSearchByAssigneeId(userId: string, searchTerm: string) {
+    const query = this.queryBuilder()
+      .select("cards.*")
+      .from("cards")
+      .join("lists", "cards.listId", "lists.id")
+      .join("teams", "lists.teamId", "teams.id")
+      .join("user_team", "teams.id", "user_team.teamId")
+      .where("user_team.userId", userId)
+      .andWhere(function () {
+        this.where("cards.title", "like", `%${searchTerm}%`).orWhere(
+          "cards.description",
+          "like",
+          `%${searchTerm}%`
+        );
+      });
+    console.log(query.toQuery());
+    return query;
+  }
+
+  static async getByAssigneeId(userId: string, teamId: string) {
+    return this.queryBuilder()
+      .select("cards.*")
+      .from("cards")
+      .join("lists", "cards.listId", "=", "lists.id")
+      .join("teams", "lists.teamId", "=", "teams.id")
+      .join("user_team", "teams.id", "=", "user_team.teamId")
+      .join("users", "cards.assignedTo", "=", "users.id")
+      .where("users.id", userId)
+      .andWhere("teams.id", teamId)
+      .groupBy("cards.id");
+  }
+
   static async create(card: ICreateCard) {
     const user = this.queryBuilder().insert(card).returning("*").table(CARD);
     return user;

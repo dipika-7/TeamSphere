@@ -9,12 +9,18 @@ import {
   getCardByListId,
   updateCard,
   updateCardStatus,
+  getCardSearch,
+  getCardByAssigneeId,
 } from "../controllers/cardController";
 import { createCardSchema, updateCardSchema } from "../schemas/cardSchema";
 
 const router = Router();
 
 router.route("/").post(Auth, validateReqBody(createCardSchema), createCard);
+
+router.route("/search").get(Auth, getCardSearch);
+
+router.route("/filter").get(Auth, getCardByAssigneeId);
 
 router
   .route("/:id")

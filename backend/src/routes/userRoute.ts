@@ -7,6 +7,7 @@ import {
   checkTokenvalid,
   deleteUser,
   getListOfUsersToAdd,
+  getUserById,
   getUserByUsername,
   getUserProfile,
   updateUser,
@@ -23,6 +24,8 @@ router
 router.route("/list/:teamId").get(Auth, getListOfUsersToAdd);
 
 router.route("/profile").get(Auth, getUserProfile);
+
+router.route("/user/:id").get(Auth, getUserById);
 
 router.route("/:username").get(Auth, getUserByUsername);
 

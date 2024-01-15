@@ -27,6 +27,27 @@ export const getUserProfile = async (
   }
 };
 
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      throw new NotFoundError("User Not Found");
+    }
+
+    const result = await userService.getUserById(id);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully got user profile",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const getListOfUsersToAdd = async (
   req: Request & { user?: JwtPayload },
   res: Response,

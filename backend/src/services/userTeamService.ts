@@ -63,6 +63,15 @@ export const getUserTeamByTeamId = async (userId: string, teamId: string) => {
   return userTeamDetail;
 };
 
+export const getMembersByTeamId = async (teamId: string) => {
+  const userTeamDetail = await UserTeamModel.getMembersByTeamId(teamId);
+  if (!userTeamDetail) {
+    throw new NotFoundError("Not Found");
+  }
+
+  return userTeamDetail;
+};
+
 export const getUserTeamByUserIdAndTeamId = async (
   userId: any,
   teamId: any

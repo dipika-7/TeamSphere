@@ -104,6 +104,24 @@ export const getUserTeamByUserIdAndTeamId = async (
   }
 };
 
+export const getMembersByTeamId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const teamId = req.params.id;
+    console.log(teamId);
+    const result = await userTeamService.getMembersByTeamId(teamId);
+    return res.status(GLOBALVARS.successStatusCode).json({
+      message: "Successfully got userTeam detail",
+      data: result,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
 export const updateUserTeam = async (
   req: Request,
   res: Response,
