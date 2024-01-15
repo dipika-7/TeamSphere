@@ -8,8 +8,8 @@ const designation = document.getElementById(
 import { fetchAndInsertNavBarContent } from "../dashboard/script/navbar";
 
 window.onload = async () => {
-  fetchAndInsertNavBarContent();
-  renderProfile();
+  await fetchAndInsertNavBarContent();
+  await renderProfile();
 };
 
 export async function renderProfile() {
