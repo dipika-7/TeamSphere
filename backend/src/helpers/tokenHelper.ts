@@ -20,13 +20,13 @@ export const generateToken = async (
   if (data.tokenType !== "accessToken") {
     const tokenDetail = await TokenModel.getByUserId(data.id);
     if (tokenDetail) {
-      const updateToken = await TokenModel.update(tokenDetail.id, {
+      await TokenModel.update(tokenDetail.id, {
         token,
         tokenType: data.tokenType,
         userId: data.id,
       });
     } else {
-      const saveToken = await TokenModel.create({
+      await TokenModel.create({
         token,
         tokenType: data.tokenType,
         userId: data.id,

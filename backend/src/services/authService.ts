@@ -1,13 +1,13 @@
 import config from "../config";
 import UserModel from "../models/userModel";
-import { IUser, ISignUp, ILogin, IPassword } from "../interfaces/userInterface";
+import { ISignUp, ILogin, IPassword } from "../interfaces/userInterface";
 import { generateToken, verifyToken } from "../helpers/tokenHelper";
 import { comparePassword, hashPassword } from "../helpers/passwordHelper";
-import UnauthenticatedError from "../errors/unAuthenticatedError";
 import BadRequestError from "../errors/badRequestError";
 import NotFoundError from "../errors/notFoundError";
 import TokenModel from "../models/tokenModel";
 import UnAuthorizedError from "../errors/unAuthorizedError";
+import { JwtPayload } from "../interfaces/jwtInterface";
 
 /**
  * Signs up a new user by checking if the email is unique, hashing the password, and adding the user to the database.
@@ -81,7 +81,11 @@ export const generateNewAccessToken = async (token: string) => {
     throw new UnAuthorizedError("Invalid Token");
   }
 
-  const payload: any = await verifyToken(token, tokenDetail.tokenType);
+  const payload = (await verifyToken(
+    token,
+    tokenDetail.tokenType
+  )) as unknown as JwtPayload;
+
   if (!payload || payload.tokenType !== "refreshToken") {
     throw new UnAuthorizedError("Invalid Token");
   }
@@ -108,7 +112,7 @@ export const generateNewAccessToken = async (token: string) => {
     config.jwt.refreshTokenExpiresIn
   );
 
-  const updateToken = await TokenModel.update(tokenDetail.id, {
+  await TokenModel.update(tokenDetail.id, {
     token: refreshToken,
     tokenType: "refreshToken",
     userId: payload.id,
@@ -134,7 +138,7 @@ export const changePassword = async (userId: string, data: IPassword) => {
 
   userDetail.password = await hashPassword(newPassword);
   console.log(userDetail);
-  const updateUser = await UserModel.update(userDetail.id, userDetail);
+  await UserModel.update(userDetail.id, userDetail);
   // delete userDetail.password;
   return userDetail;
 };

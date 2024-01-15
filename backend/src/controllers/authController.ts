@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "../interfaces/jwtInterface";
 
 import { GLOBALVARS } from "../constants/statusCode";
 import * as authService from "../services/authService";
@@ -105,10 +105,10 @@ export const logout = async (
   next: NextFunction
 ) => {
   try {
-    const userId = req?.user?.id;
+    const user = req.user!;
     const data = req.body;
     if (data.refreshToken) {
-      const resetToken = await authService.logout(userId, data.refreshToken);
+      await authService.logout(user.id, data.refreshToken);
     }
     res.status(GLOBALVARS.successStatusCode).json({
       message: "Logout Successfully",

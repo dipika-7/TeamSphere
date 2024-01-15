@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GLOBALVARS } from "../constants/statusCode";
 import * as userTeamService from "../services/userTeamService";
 import NotFoundError from "../errors/notFoundError";
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "../interfaces/jwtInterface";
 
 export const createUserTeam = async (
   req: Request,
@@ -49,15 +49,14 @@ export const getUserTeamDetailById = async (
 };
 
 export const getUserTeamByTeamId = async (
-  //   req: Request & { user: JwtPayload },
-  req: any,
+  req: Request & { user?: JwtPayload },
   res: Response,
   next: NextFunction
 ) => {
   try {
     const teamId = req.params.id;
-    const userId = req.user.id;
-    const result = await userTeamService.getUserTeamByTeamId(userId, teamId);
+    const user = req.user!;
+    const result = await userTeamService.getUserTeamByTeamId(user.id, teamId);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got userTeam detail",
       data: result,
@@ -73,8 +72,8 @@ export const getUserTeamByUserId = async (
   next: NextFunction
 ) => {
   try {
-    const userId = req?.user?.id;
-    const result = await userTeamService.getUserTeamByUserId(userId);
+    const user = req.user!;
+    const result = await userTeamService.getUserTeamByUserId(user.id);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got userTeam detail",
       data: result,
@@ -90,10 +89,10 @@ export const getUserTeamByUserIdAndTeamId = async (
   next: NextFunction
 ) => {
   try {
-    const data = req.query;
+    const { userId, teamId } = req.query;
     const result = await userTeamService.getUserTeamByUserIdAndTeamId(
-      data.userId,
-      data.teamId
+      userId as string,
+      teamId as string
     );
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got userTeam detail",
@@ -156,7 +155,7 @@ export const deleteUserTeam = async (
       throw new NotFoundError("UserTeam Not Found");
     }
 
-    const result = await userTeamService.deleteUserTeam(id);
+    await userTeamService.deleteUserTeam(id);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully removed",
     });

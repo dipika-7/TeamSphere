@@ -1,5 +1,3 @@
-import { PaginationQuery } from "./paginationInterface";
-
 export interface IUser {
   id: number;
   username: string;

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import loggerWithNameSpace from "../util/logger";
+import loggerWithNameSpace from "../utils/logger";
 
 const loggerFn = loggerWithNameSpace("Logger");
 

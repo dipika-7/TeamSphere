@@ -48,7 +48,7 @@ export const getListByTeamId = async (teamId: string) => {
 };
 
 export const updateList = async (id: string, data: IUpdateList) => {
-  const listDetail = await getListById(id);
+  await getListById(id);
 
   const updateList = await ListModel.update(id, data);
   if (!updateList) {

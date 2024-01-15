@@ -4,7 +4,6 @@ import { validateReqBody } from "../middlewares/validator";
 import { Auth } from "../middlewares/Auth";
 import { updateUserSchema } from "../schemas/userSchema";
 import {
-  checkTokenvalid,
   deleteUser,
   getListOfUsersToAdd,
   getUserById,

@@ -1,4 +1,3 @@
-// import { config } from "dotenv";
 import dotenv from "dotenv";
 
 const pathToEnv = __dirname + "/../.env";

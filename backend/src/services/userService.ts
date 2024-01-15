@@ -31,7 +31,7 @@ export const getUserByUsername = async (username: string) => {
 };
 
 export const updateUserProfile = async (id: string, data: IUpdateUser) => {
-  const userDetail = await getUserById(id);
+  await getUserById(id);
 
   const updateUser = await UserModel.update(id, data);
   if (!updateUser) {

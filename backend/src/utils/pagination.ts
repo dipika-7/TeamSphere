@@ -1,4 +1,4 @@
-import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "../constant/pagination";
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from "../constants/pagination";
 
 export const buildMeta = (total: number, size?: number, page?: number) => {
   return {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "../interfaces/jwtInterface";
 
 import { GLOBALVARS } from "../constants/statusCode";
 import * as teamService from "../services/teamService";
@@ -71,7 +71,7 @@ export const getTeamsByUserId = async (
 };
 
 export const checkTeamCreateByUser = async (
-  req: any,
+  req: Request & { user?: JwtPayload },
   res: Response,
   next: NextFunction
 ) => {
@@ -131,7 +131,7 @@ export const deleteTeam = async (
       throw new NotFoundError("Team Not Found");
     }
 
-    const result = await teamService.deleteTeam(id);
+    await teamService.deleteTeam(id);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully removed",
     });

@@ -12,7 +12,7 @@ const createCardSchema = Joi.object({
     .valid("complete", "incomplete")
     .default("incomplete")
     .messages({
-      "any.only": 'status must be either "complete" or "incomplete"',
+      "any.only": "status must be either 'complete' or 'incomplete'",
       "string.empty": "status cannot be empty",
     }),
   deadline: Joi.date().required().messages({
@@ -37,7 +37,7 @@ const updateCardSchema = Joi.object({
     "string.empty": "Description cannot be empty",
   }),
   status: Joi.valid("complete", "incomplete").messages({
-    "any.only": 'status must be either "complete" or "incomplete"',
+    "any.only": "status must be either 'complete' or 'incomplete'",
     "string.empty": "status cannot be empty",
   }),
   deadline: Joi.date().messages({

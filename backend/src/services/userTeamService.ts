@@ -73,8 +73,8 @@ export const getMembersByTeamId = async (teamId: string) => {
 };
 
 export const getUserTeamByUserIdAndTeamId = async (
-  userId: any,
-  teamId: any
+  userId: string,
+  teamId: string
 ) => {
   const userTeamDetail = await UserTeamModel.getByUserIdAndTeamId(
     userId,
@@ -88,7 +88,7 @@ export const getUserTeamByUserIdAndTeamId = async (
 };
 
 export const updateUserTeam = async (id: string, data: IUpdateUserTeam) => {
-  const userTeamDetail = await getUserTeamById(id);
+  await getUserTeamById(id);
 
   const updateUserTeam = await UserTeamModel.update(id, data);
   if (!updateUserTeam) {

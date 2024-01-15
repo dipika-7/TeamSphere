@@ -99,7 +99,7 @@ export const deleteList = async (
       throw new NotFoundError("List Not Found");
     }
 
-    const result = await listService.deleteList(id);
+    await listService.deleteList(id);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully removed",
     });

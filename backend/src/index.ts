@@ -1,9 +1,8 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 
 import config from "./config";
 import routes from "./routes";
-import { logger } from "./middlewares/logger";
 import { genericErrorHandler, notFoundError } from "./middlewares/errorHandler";
 
 const app = express();

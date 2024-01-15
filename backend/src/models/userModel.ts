@@ -1,5 +1,5 @@
 import BaseModel from "./baseModel";
-import { IUser, ISignUp, IUpdateUser } from "../interfaces/userInterface";
+import { ISignUp, IUpdateUser } from "../interfaces/userInterface";
 
 export default class UserModel extends BaseModel {
   static async getAll() {

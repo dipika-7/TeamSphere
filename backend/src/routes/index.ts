@@ -1,6 +1,5 @@
 import { Router } from "express";
 
-import { Auth } from "../middlewares/Auth";
 import authRoutes from "./authRoute";
 import userRoutes from "./userRoute";
 import teamRoutes from "./teamRoute";

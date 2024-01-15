@@ -59,7 +59,7 @@ export const getByAssigneeId = async (userId: string, teamId: string) => {
 };
 
 export const updateCard = async (id: string, data: IUpdateCard) => {
-  const cardDetail = await getCardById(id);
+  await getCardById(id);
 
   const updateCard = await CardModel.update(id, data);
   if (!updateCard) {

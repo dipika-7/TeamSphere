@@ -10,42 +10,45 @@ const TABLE_NAME = "cards";
  * @returns {Promise}
  */
 export async function up(knex: Knex): Promise<void> {
-  return knex
-    .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
-    .then(function () {
-      return knex.schema.createTable(TABLE_NAME, (table) => {
-        table.uuid("id").defaultTo(knex.raw("uuid_generate_v4()")).primary();
+  return (
+    knex
+      // eslint-disable-next-line quotes
+      .raw('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
+      .then(function () {
+        return knex.schema.createTable(TABLE_NAME, (table) => {
+          table.uuid("id").defaultTo(knex.raw("uuid_generate_v4()")).primary();
 
-        table.string("title", 255).notNullable();
+          table.string("title", 255).notNullable();
 
-        table.string("description", 255).nullable();
+          table.string("description", 255).nullable();
 
-        table
-          .enum("status", ["complete", "incomplete"])
-          .defaultTo("incomplete");
+          table
+            .enum("status", ["complete", "incomplete"])
+            .defaultTo("incomplete");
 
-        table.date("deadline").notNullable();
+          table.date("deadline").notNullable();
 
-        table.integer("priority").unsigned().defaultTo(1).notNullable();
+          table.integer("priority").unsigned().defaultTo(1).notNullable();
 
-        table.uuid("list_id").notNullable().references("id").inTable(LIST);
+          table.uuid("list_id").notNullable().references("id").inTable(LIST);
 
-        table.boolean("is_deleted").defaultTo(false).notNullable();
+          table.boolean("is_deleted").defaultTo(false).notNullable();
 
-        table
-          .uuid("assigned_to")
-          .references("id")
-          .inTable(PEOPLE)
-          .notNullable();
+          table
+            .uuid("assigned_to")
+            .references("id")
+            .inTable(PEOPLE)
+            .notNullable();
 
-        table
-          .timestamp("created_at")
-          .notNullable()
-          .defaultTo(knex.raw("now()"));
+          table
+            .timestamp("created_at")
+            .notNullable()
+            .defaultTo(knex.raw("now()"));
 
-        table.timestamp("updated_at").nullable();
-      });
-    });
+          table.timestamp("updated_at").nullable();
+        });
+      })
+  );
 }
 
 /**

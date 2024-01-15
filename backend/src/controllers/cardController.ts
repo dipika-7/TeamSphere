@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { GLOBALVARS } from "../constants/statusCode";
 import * as cardService from "../services/cardService";
 import NotFoundError from "../errors/notFoundError";
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "../interfaces/jwtInterface";
 
 export const createCard = async (
   req: Request,
@@ -66,15 +66,18 @@ export const getCardByListId = async (
 };
 
 export const getCardSearch = async (
-  req: any,
+  req: Request & { user?: JwtPayload },
   res: Response,
   next: NextFunction
 ) => {
   try {
     const searchTerm = req.query.searchTerm || "";
-    const userId = req?.user?.id;
+    const user = req.user!;
 
-    const result = await cardService.getSearchByAssigneeId(userId, searchTerm);
+    const result = await cardService.getSearchByAssigneeId(
+      user.id,
+      searchTerm as string
+    );
     console.log(result);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got",
@@ -86,7 +89,7 @@ export const getCardSearch = async (
 };
 
 export const getCardByAssigneeId = async (
-  req: any,
+  req: Request & { user?: JwtPayload },
   res: Response,
   next: NextFunction
 ) => {
@@ -96,7 +99,10 @@ export const getCardByAssigneeId = async (
 
     console.log(userId, teamId);
 
-    const result = await cardService.getByAssigneeId(userId, teamId);
+    const result = await cardService.getByAssigneeId(
+      userId as string,
+      teamId as string
+    );
     console.log(result);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got",
@@ -163,7 +169,7 @@ export const deleteCard = async (
       throw new NotFoundError("Card Not Found");
     }
 
-    const result = await cardService.deleteCard(id);
+    await cardService.deleteCard(id);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully removed",
     });
