@@ -31,6 +31,14 @@ export async function getUserById(userId: string) {
   }
 }
 
+export async function getUserByUsername(username: string) {
+  const response = await http.get(`${USER_ENDPOINTS.USERS}/${username}`);
+
+  if (response.status === 200) {
+    return response.data.data;
+  }
+}
+
 export async function getUserList(teamId: string) {
   try {
     const response = await http.get(`${USER_ENDPOINTS.USERS_LIST}/${teamId}`);
