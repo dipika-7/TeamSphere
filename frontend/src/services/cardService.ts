@@ -36,6 +36,23 @@ export async function createCard(card: IPartialCard) {
   }
 }
 
+export async function searchCard(searchTerm: string) {
+  try {
+    const response = await http.get(
+      `${CARD_ENDPOINTS.CARDS_SEARCH}?searchTerm=${searchTerm}`
+    );
+    if (response.status === 200) {
+      // showToastMessage("success", response.data.message);
+      return response.data.data;
+    }
+  } catch (error) {
+    console.log({ error });
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
+  }
+}
+
 export async function updateCard(cardId: string, card: IPartialCard) {
   try {
     const response = await http.put(`${CARD_ENDPOINTS.CARDS}/${cardId}`, card);
@@ -56,6 +73,23 @@ export async function updateCardStatus(cardId: string) {
     const response = await http.put(`${CARD_ENDPOINTS.UPDATE_CARD}/${cardId}`);
     if (response.status === 200) {
       showToastMessage("success", response.data.message);
+      return response.data.data;
+    }
+  } catch (error) {
+    console.log({ error });
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
+  }
+}
+
+export async function getCardByAssigneeId(userId: string, teamId: string) {
+  try {
+    const response = await http.get(
+      `${CARD_ENDPOINTS.CARDS_FILTER}?userId=${userId}&teamId=${teamId}`
+    );
+
+    if (response.status === 200) {
       return response.data.data;
     }
   } catch (error) {
