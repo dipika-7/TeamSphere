@@ -10,10 +10,6 @@ body {
   box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navbar-group {
-  flex-grow: 0;
-}
-
 .logo {
   width: 150px;
 }
@@ -157,4 +153,87 @@ li {
 .status-btn {
   cursor: pointer;
   margin-left: 15%;
+}
+
+.navbar-group {
+  margin-left: 70%;
+}
+
+#team-list-collapse {
+  display: none;
+}
+
+.logout-btn-collapse {
+  display: none;
+}
+
+.not-available-card {
+  margin: 10% auto;
+}
+
+#team-members {
+  display: none;
+  position: absolute;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 10px 20px;
+  z-index: 1;
+  right: 95%;
+}
+
+.team-member-item {
+  cursor: pointer;
+}
+
+#team-button:hover #team-members {
+  display: block;
+}
+
+@media screen and (max-width: 991px) {
+  .nav-large-section {
+    display: none;
+  }
+  #team-list-collapse {
+    display: inline;
+  }
+
+  #add-card-container {
+    position: absolute;
+    top: 20%;
+    left: 10%;
+  }
+
+  #add-user-container {
+    top: 20%;
+    left: 30%;
+  }
+
+  #search-field,
+  #button-group {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .list-sm {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .lanes {
+    gap: 0px;
+    width: 100%;
+  }
+
+  #add-card-container {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 90%;
+  }
+
+  #add-user-container {
+    top: 20%;
+    left: 10%;
+    width: 90%;
+  }
 }
