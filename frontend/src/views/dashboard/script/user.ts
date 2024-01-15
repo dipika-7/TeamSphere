@@ -28,7 +28,6 @@ import { getUserByUsername } from "../../../services/userService";
 
 export async function listOfUserToAddInTeam(element: HTMLElement) {
   const userList = await getUserList(activeTeam);
-  console.log(userList);
   userList.forEach((user: IUser) => {
     const optionElement = document.createElement("option");
     optionElement.value = user.username;
@@ -36,15 +35,6 @@ export async function listOfUserToAddInTeam(element: HTMLElement) {
     element.appendChild(optionElement);
   });
 }
-
-// export async function renderProfile() {
-//   const userResponse = await http.get("/users");
-//   const userProfile = userResponse.data.data;
-//   if (userProfile) {
-//     userName.innerHTML = userProfile?.username;
-//     designation.innerHTML = userProfile.designation;
-//   }
-// }
 
 userCloseButton.addEventListener("click", (e) => {
   e.preventDefault();
@@ -78,7 +68,6 @@ export async function handleAddUserFormSubmit(e: Event) {
     closeCardForm();
     return;
   } catch (e) {
-    // console.log(e);
     if (e instanceof ValidationError) {
       e.inner.forEach((error) => {
         displayValidationError(userFormElement, error.path!, error.message);

@@ -14,7 +14,6 @@ export async function getListByTeamId(teamId: string) {
       return response.data.data;
     }
   } catch (error) {
-    console.log({ error });
     if (error instanceof AxiosError) {
       showToastMessage("error", error.response?.data.message);
     }

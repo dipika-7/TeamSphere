@@ -42,7 +42,6 @@ export async function searchCard(searchTerm: string) {
       `${CARD_ENDPOINTS.CARDS_SEARCH}?searchTerm=${searchTerm}`
     );
     if (response.status === 200) {
-      // showToastMessage("success", response.data.message);
       return response.data.data;
     }
   } catch (error) {
@@ -57,7 +56,6 @@ export async function updateCard(cardId: string, card: IPartialCard) {
   try {
     const response = await http.put(`${CARD_ENDPOINTS.CARDS}/${cardId}`, card);
     if (response.status === 200) {
-      // showToastMessage("success", response.data.message);
       return;
     }
   } catch (error) {

@@ -24,7 +24,6 @@ loginForm.addEventListener("submit", async (e) => {
       password,
     };
     const validateData = await validateFormData(loginSchema, data);
-    console.log(validateData);
     if (validateData) {
       await login(data);
     }

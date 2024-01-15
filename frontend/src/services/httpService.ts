@@ -23,7 +23,6 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(error);
     if (error.response.status === 401) {
       const refreshToken = localStorage.getItem("refreshToken");
       if (refreshToken) {

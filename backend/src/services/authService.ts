@@ -139,7 +139,6 @@ export const changePassword = async (userId: string, data: IPassword) => {
   userDetail.password = await hashPassword(newPassword);
   console.log(userDetail);
   await UserModel.update(userDetail.id, userDetail);
-  // delete userDetail.password;
   return userDetail;
 };
 
@@ -150,11 +149,5 @@ export const changePassword = async (userId: string, data: IPassword) => {
  */
 export const logout = async (userId: string, refreshToken: string) => {
   const removeToken = await TokenModel.deleteByToken(refreshToken);
-  // const user = await UserModel.getById(userId);
-  // if (user) {
-  //   user.accessToken = "";
-  //   user.refreshToken = "";
-  //   const updateUser = await UserModel.update(user.id, user);
-  // }
   return removeToken;
 };

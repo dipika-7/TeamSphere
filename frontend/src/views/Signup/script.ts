@@ -37,7 +37,6 @@ registerForm.addEventListener("submit", async (e) => {
     }
     return;
   } catch (e) {
-    console.log(e);
     if (e instanceof ValidationError) {
       e.inner.forEach((error) => {
         displayValidationError(registerForm, error.path!, error.message);

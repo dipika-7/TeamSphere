@@ -73,7 +73,6 @@ export async function renderTeam() {
   try {
     teamListElement.innerHTML = "";
 
-    // const teamResponse = await http.get("/teams");
     const teamList = await getTeamListByUserId();
 
     if (teamList.length > 0) {

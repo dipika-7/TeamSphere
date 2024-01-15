@@ -30,7 +30,6 @@ export async function register(user: {
 export async function login(user: { email: string; password: string }) {
   try {
     const response = await http.post(AUTH_ENDPOINTS.LOGIN, user);
-    console.log(response);
     if (response.status == 200) {
       localStorage.setItem("accessToken", response.data.data.accessToken);
       localStorage.setItem("refreshToken", response.data.data.refreshToken);

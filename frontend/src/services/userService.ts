@@ -11,23 +11,20 @@ export async function getUserProfile() {
       return response.data.data;
     }
   } catch (error) {
-    console.log({ error });
     if (error instanceof AxiosError) {
       showToastMessage("error", error.response?.data.message);
     }
   }
 }
 
-export async function getUserByUsername(username: string) {
+export async function getUserById(userId: string) {
   try {
-    const response = await http.get(`${USER_ENDPOINTS.USERS}/${username}`);
+    const response = await http.get(`${USER_ENDPOINTS.USER}/${userId}`);
 
-    console.log("User get by username");
     if (response.status === 200) {
       return response.data.data;
     }
   } catch (error) {
-    console.log({ error });
     if (error instanceof AxiosError) {
       showToastMessage("error", error.response?.data.message);
     }
@@ -37,12 +34,10 @@ export async function getUserByUsername(username: string) {
 export async function getUserList(teamId: string) {
   try {
     const response = await http.get(`${USER_ENDPOINTS.USERS_LIST}/${teamId}`);
-    console.log(response.data);
     if (response.status === 200) {
       return response.data.data;
     }
   } catch (error) {
-    console.log({ error });
     if (error instanceof AxiosError) {
       showToastMessage("error", error.response?.data.message);
     }

@@ -107,7 +107,6 @@ export async function renderCard(listId: string) {
 
     cardItemElement.appendChild(cardTitleElement);
 
-    // cardDetailDiv.appendChild(cardStatusElement);
     cardDetailDiv.appendChild(cardAssignedToElement);
 
     deadlineDiv.appendChild(deadlineDateDiv);
@@ -183,7 +182,6 @@ export async function handleEditCardForm(e: Event) {
 
     closeCardForm();
 
-    // const getCards = await getCardByListId(data.listId);
     renderList(activeTeam);
 
     return;

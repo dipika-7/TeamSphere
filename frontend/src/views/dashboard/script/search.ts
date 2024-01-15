@@ -12,7 +12,6 @@ export async function handleSearch(e: Event) {
   const result = await searchCard(searchTerm);
   searchField.value = "";
 
-  // listCardContainer.innerHTML = "";
   teamDetailElement.innerHTML = "";
   if (result.length <= 0 || !result) {
     renderNotAvailable();

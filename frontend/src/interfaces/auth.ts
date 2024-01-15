@@ -26,7 +26,3 @@ export interface ILogin
   > {}
 
 export interface IUpdateUser extends Partial<ISignUp> {}
-
-// export interface GetAllUsersQuery extends PaginationQuery {
-//   name?: string;
-// }
