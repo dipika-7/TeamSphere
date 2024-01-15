@@ -3,4 +3,5 @@ export interface IUserTeam {
   userId: string;
   teamId: string;
   teamName?: string;
+  userName?: string;
 }
