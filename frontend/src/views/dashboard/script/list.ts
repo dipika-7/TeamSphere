@@ -28,9 +28,6 @@ export async function renderList(teamId: string) {
     const buttonElement = await renderButton(list.id);
     listGroupElement?.appendChild(buttonElement);
     await renderCard(list.id);
-
-    // await renderAddCardElement();
-    // });
   }
   dragFunction();
 }

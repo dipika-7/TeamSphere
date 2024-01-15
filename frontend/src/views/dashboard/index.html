@@ -87,8 +87,8 @@
     </div>
 
     <!-- add card form start -->
-    <div id="add-card-container" class="d-none row">
-      <div class="col-lg-5 col-md-5 mx-auto">
+    <div id="add-card-container" class="d-none row popup-form">
+      <div class="col-md-8 mx-auto">
         <div class="card p-4">
           <div class="card-title d-flex justify-content-between">
             <h3 class="heading">Add Card</h3>
@@ -155,8 +155,8 @@
     <!-- add card form end -->
 
     <!-- edit card start-->
-    <div id="edit-card-container" class="row d-none">
-      <div class="col-lg-5 col-md-5 mx-auto">
+    <div id="edit-card-container" class="row d-none popup-form">
+      <div class="col-md-8 mx-auto">
         <div class="card p-4">
           <div class="card-title d-flex justify-content-between">
             <h3 class="heading">Edit Card</h3>
@@ -217,7 +217,7 @@
     <!-- edit card end -->
 
     <!-- add user form start -->
-    <div id="add-user-container" class="d-none row">
+    <div id="add-user-container" class="d-none row popup-form">
       <div class="col-lg-12 col-md-10 mx-auto">
         <div class="card p-4">
           <div class="card-title d-flex justify-content-between">
@@ -250,47 +250,48 @@
     </div>
     <!-- add user form end -->
 
-    <form
-      class="row needs-validation d-none py-3 card"
-      id="team-form"
-      novalidate
-    >
-      <div class="card-title d-flex justify-content-between">
-        <h3 class="heading">Add Team</h3>
-        <button class="btn" id="add-team-close-btn">
-          <i class="ph ph-x-circle icon-size"></i>
-        </button>
-      </div>
+    <div class="add-team-form popup-form">
+      <form
+        class="row needs-validation d-none py-3 card"
+        id="team-form"
+        novalidate
+      >
+        <div class="card-title d-flex justify-content-between">
+          <h3 class="heading">Add Team</h3>
+          <button class="btn" id="add-team-close-btn">
+            <i class="ph ph-x-circle icon-size"></i>
+          </button>
+        </div>
 
-      <div class="col-md-12">
-        <label for="title" class="form-label">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          name="name"
-          id="team-name"
-          required
-        />
-        <div class="invalid-feedback" id="name-feedback"></div>
-      </div>
-      <div class="col-md-12">
-        <label for="description" class="form-label">Description</label>
-        <input
-          type="text"
-          class="form-control"
-          name="description"
-          id="team-description"
-          required
-        />
-        <div class="invalid-feedback" id="description-feedback"></div>
-      </div>
-      <div class="col-12 mt-3">
-        <button class="btn btn-info" type="submit" id="add-team">
-          Add Team
-        </button>
-      </div>
-    </form>
-
+        <div class="col-md-12">
+          <label for="title" class="form-label">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            id="team-name"
+            required
+          />
+          <div class="invalid-feedback" id="name-feedback"></div>
+        </div>
+        <div class="col-md-12">
+          <label for="description" class="form-label">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="team-description"
+            required
+          />
+          <div class="invalid-feedback" id="description-feedback"></div>
+        </div>
+        <div class="col-12 mt-3">
+          <button class="btn btn-info" type="submit" id="add-team">
+            Add Team
+          </button>
+        </div>
+      </form>
+    </div>
     <!-- <script type="module" src="./script/navbar.ts"></script> -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 

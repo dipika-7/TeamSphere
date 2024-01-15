@@ -24,14 +24,14 @@ export async function renderSearchedCard(cards: ICard[]) {
   listCardContainer.innerHTML = "";
 
   const cardGroupElement = document.createElement("div");
-  cardGroupElement.classList.add("card-group", "mx-2", "p-2");
+  cardGroupElement.classList.add("card-group", "mx-5", "p-2");
 
   const cardListElement = document.createElement("ul");
   cardListElement.classList.add("card-list", "col-12", "swim-lane");
 
   cards.forEach(async (card: ICard) => {
     const cardItemElement = document.createElement("li");
-    cardItemElement.classList.add("card-item", "task", "mb-2", "py-3");
+    cardItemElement.classList.add("card-item", "task", "mb-4", "py-3", "px-4");
 
     cardItemElement.id = card.id;
     cardItemElement.draggable = true;
@@ -41,10 +41,10 @@ export async function renderSearchedCard(cards: ICard[]) {
     cardTitleElement.innerHTML = card.title;
 
     const deadlineDiv = document.createElement("div");
-    deadlineDiv.classList.add("p-1", "deadline", "flex-wrap", "d-flex");
+    deadlineDiv.classList.add("deadline", "flex-wrap", "d-flex");
 
     const deadlineDateDiv = document.createElement("div");
-    deadlineDateDiv.classList.add("p-1", "deadline", "flex-wrap");
+    deadlineDateDiv.classList.add("deadline", "flex-wrap");
 
     const iconElement = document.createElement("i");
     iconElement.classList.add("ph", "ph-clock", "icon-small-size");

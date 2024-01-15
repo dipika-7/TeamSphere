@@ -49,7 +49,7 @@ export async function renderCard(listId: string) {
 
   cards.forEach((card: ICard) => {
     const cardItemElement = document.createElement("li");
-    cardItemElement.classList.add("card-item", "task", "mb-2", "py-3");
+    cardItemElement.classList.add("card-item", "task", "mb-2", "p-3");
 
     cardItemElement.id = card.id;
     cardItemElement.draggable = true;
@@ -67,10 +67,14 @@ export async function renderCard(listId: string) {
     cardTitleElement.appendChild(cardTitle);
 
     const deadlineDiv = document.createElement("div");
-    deadlineDiv.classList.add("p-1", "deadline", "flex-wrap", "d-flex");
+    deadlineDiv.classList.add("deadline", "flex-wrap", "d-flex");
 
     const deadlineDateDiv = document.createElement("div");
-    deadlineDateDiv.classList.add("p-1", "deadline", "flex-wrap");
+    deadlineDateDiv.classList.add(
+      "deadline",
+      "flex-wrap",
+      "align-items-center"
+    );
 
     const iconElement = document.createElement("i");
     iconElement.classList.add("ph", "ph-clock", "icon-small-size");
@@ -102,7 +106,11 @@ export async function renderCard(listId: string) {
     cardAssignedToElement.innerHTML = `Assigned to: ${card.assignedTo}`;
 
     const editCardButtonElement = document.createElement("button");
-    editCardButtonElement.classList.add("btn");
+    editCardButtonElement.classList.add(
+      "btn",
+      "btn-sm",
+      "btn-outline-secondary"
+    );
     editCardButtonElement.innerHTML = "<i class='ph ph-pencil-simple'></i>";
 
     cardItemElement.appendChild(cardTitleElement);
@@ -116,7 +124,7 @@ export async function renderCard(listId: string) {
 
     cardItemElement.appendChild(cardDetailDiv);
 
-    cardItemElement.addEventListener("click", (e) =>
+    editCardButtonElement.addEventListener("click", (e) =>
       handleCardEditElement(e, card)
     );
 
