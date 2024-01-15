@@ -62,7 +62,10 @@ export async function renderCard(listId: string) {
     const date = card.deadline.split("T")[0];
     cardDeadlineElement.innerHTML = date;
 
-    if (card.deadline && Date.parse(card.deadline) < Date.now()) {
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
+
+    if (Date.parse(card.deadline) < endOfToday.getTime()) {
       deadlineDateDiv.classList.add("text-danger");
     }
     deadlineDateDiv.appendChild(cardDeadlineElement);
