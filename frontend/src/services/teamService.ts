@@ -85,8 +85,21 @@ export async function checkTeamCreateByUser(teamId: string) {
       return true;
     }
   } catch (error) {
-    // if (error instanceof AxiosError) {
     return false;
-    // }
+  }
+}
+
+export async function getTeamMemberByTeamId(teamId: string) {
+  try {
+    const response = await http.get(
+      `${USER_TEAM_ENDPOINTS.TEAM_MEMBER_BY_TEAM_ID}/${teamId}`
+    );
+    if (response.status === 200) {
+      return response.data.data;
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      showToastMessage("error", error.response?.data.message);
+    }
   }
 }
