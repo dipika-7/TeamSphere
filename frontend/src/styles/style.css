@@ -23,6 +23,14 @@ a {
   color: white;
 }
 
+.profile-container {
+  background-image: url("../../assets/images/backgroundImg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100vh;
+}
+
 .bg-main {
   background-image: url("../../assets/images/backgroundImg.jpg");
   background-size: cover;
@@ -48,16 +56,21 @@ li {
   cursor: pointer;
 }
 
-#add-card-container,
-#add-user-container {
+#add-card-container {
   position: absolute;
   top: 20%;
-  left: 20%;
+  left: 10%;
+}
+#edit-card-container {
+  position: absolute;
+  top: 20%;
+  left: 25%;
 }
 
 #add-user-container {
+  position: absolute;
   top: 20%;
-  left: 45%;
+  left: 40%;
 }
 
 .icon-size {
@@ -79,8 +92,9 @@ li {
 
 #team-form {
   position: absolute;
-  top: 9%;
-  left: 16%;
+  top: 30%;
+  left: 50%;
+  padding: 20px;
 }
 
 .board {
@@ -146,7 +160,6 @@ li {
 
 .deadline {
   display: flex;
-  /* justify-content: space-around; */
   border-radius: 5px;
 }
 

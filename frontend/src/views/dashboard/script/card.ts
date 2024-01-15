@@ -1,28 +1,39 @@
 import { ValidationError } from "yup";
 import { AxiosError } from "axios";
+
 import {
   createCard,
   getCardByListId,
-  updateCardStatus,
+  updateCard,
 } from "../../../services/cardService";
 import { ICard } from "../../../interfaces/card";
-const addCardForm = document.getElementById("add-card-form") as HTMLFormElement;
-const cardTitleInputElement = document.getElementById(
-  "card-title"
-) as HTMLFormElement;
-
 import {
   displayValidationError,
   validateFormData,
 } from "../../../utils/validateUtil";
-import { createCardSchema } from "../../../schemas/cardSchema";
+import {
+  createCardSchema,
+  updateCardSchema,
+} from "../../../schemas/cardSchema";
 import { getUserByUsername } from "../../../services/userService";
 import { closeCardForm } from "./common";
 import { renderList } from "./list";
 import { showToastMessage } from "../../../utils/responseUtil";
 import { activeTeam } from "./team";
+
+const mainContainer = document.getElementById("main-container") as HTMLElement;
+const addCardForm = document.getElementById("add-card-form") as HTMLFormElement;
+const cardTitleInputElement = document.getElementById(
+  "card-title"
+) as HTMLFormElement;
 const cardCloseButton = document.getElementById(
   "card-close-btn"
+) as HTMLElement;
+const cardEditFormElement = document.getElementById(
+  "edit-card-form"
+) as HTMLFormElement;
+const editCardCloseButton = document.getElementById(
+  "edit-card-close-btn"
 ) as HTMLElement;
 
 export async function renderCard(listId: string) {
@@ -43,9 +54,17 @@ export async function renderCard(listId: string) {
     cardItemElement.id = card.id;
     cardItemElement.draggable = true;
 
-    const cardTitleElement = document.createElement("span");
-    cardTitleElement.style.fontSize = "16px";
-    cardTitleElement.innerHTML = card.title;
+    const cardTitleElement = document.createElement("div");
+    cardTitleElement.classList.add(
+      "d-flex",
+      "justify-content-between",
+      "align-items-center"
+    );
+
+    const cardTitle = document.createElement("span");
+    cardTitle.style.fontSize = "16px";
+    cardTitle.innerHTML = card.title;
+    cardTitleElement.appendChild(cardTitle);
 
     const deadlineDiv = document.createElement("div");
     deadlineDiv.classList.add("p-1", "deadline", "flex-wrap", "d-flex");
@@ -70,15 +89,6 @@ export async function renderCard(listId: string) {
     }
     deadlineDateDiv.appendChild(cardDeadlineElement);
 
-    const cardStatusBtnElement = document.createElement("button");
-    cardStatusBtnElement.classList.add(
-      "btn",
-      "btn-sm",
-      "btn-info",
-      "status-btn"
-    );
-    cardStatusBtnElement.innerHTML = "Change Status";
-
     const cardDetailDiv = document.createElement("div");
     cardDetailDiv.classList.add("d-flex", "flex-column");
 
@@ -91,12 +101,9 @@ export async function renderCard(listId: string) {
     cardAssignedToElement.style.fontSize = "12px";
     cardAssignedToElement.innerHTML = `Assigned to: ${card.assignedTo}`;
 
-    cardStatusBtnElement.addEventListener("click", async (e) =>
-      handleCardStatusBtn(e, card.id, {
-        cardStatusBtnElement,
-        cardStatusElement,
-      })
-    );
+    const editCardButtonElement = document.createElement("button");
+    editCardButtonElement.classList.add("btn");
+    editCardButtonElement.innerHTML = "<i class='ph ph-pencil-simple'></i>";
 
     cardItemElement.appendChild(cardTitleElement);
 
@@ -104,11 +111,16 @@ export async function renderCard(listId: string) {
     cardDetailDiv.appendChild(cardAssignedToElement);
 
     deadlineDiv.appendChild(deadlineDateDiv);
-    deadlineDiv.appendChild(cardStatusBtnElement);
+    cardTitleElement.appendChild(editCardButtonElement);
 
     cardDetailDiv.appendChild(deadlineDiv);
 
     cardItemElement.appendChild(cardDetailDiv);
+
+    cardItemElement.addEventListener("click", (e) =>
+      handleCardEditElement(e, card)
+    );
+
     cardListElement.appendChild(cardItemElement);
   });
 
@@ -116,19 +128,82 @@ export async function renderCard(listId: string) {
   listElement?.appendChild(cardGroupElement);
 }
 
+cardEditFormElement.addEventListener("submit", (e) => handleEditCardForm(e));
+
+addCardForm.addEventListener("submit", async (e) => {
+  handleAddCardForm(e);
+});
+
 export function addCardToList(listId: string) {
-  addCardForm.setAttribute("id", `form-${listId}`);
-  addCardForm.addEventListener("submit", async (e) => {
-    handleAddCardForm(e, { listId, activeTeam });
-  });
+  addCardForm.setAttribute("id", listId);
 }
 
-export async function handleAddCardForm(
-  e: Event,
-  formData: { listId: string; activeTeam: string }
-) {
+export async function handleCardEditElement(e: Event, card: ICard) {
+  e.preventDefault();
+  const cardFormContainer = document.getElementById(
+    "edit-card-container"
+  ) as HTMLElement;
+  cardFormContainer.classList.remove("d-none");
+
+  cardEditFormElement.editCardTitle.value = card.title || "";
+  cardEditFormElement.editCardDescription.value = card.description || "";
+  cardEditFormElement.editCardDeadline.value = card.deadline.split("T")[0];
+  cardEditFormElement.cardId.value = card.id;
+
+  mainContainer.style.filter = "blur(5px)";
+  mainContainer.style.pointerEvents = "none";
+}
+
+export async function handleEditCardForm(e: Event) {
   try {
     e.preventDefault();
+
+    const editCardTitle = cardEditFormElement.editCardTitle.value;
+    const editCardDescription = cardEditFormElement.editCardDescription.value;
+    const editCardDeadline = cardEditFormElement.editCardDeadline.value;
+    const cardId = cardEditFormElement.cardId.value;
+
+    const data = {
+      editCardTitle,
+      editCardDescription,
+      editCardDeadline,
+    };
+
+    data.editCardDeadline = data.editCardDeadline.split("T", 1)[0];
+
+    const validateData = await validateFormData(updateCardSchema, data);
+
+    const updatedCardDetails = {
+      title: validateData.editCardTitle,
+      description: validateData.editCardDescription,
+      deadline: validateData.editCardDeadline,
+    };
+
+    await updateCard(cardId, updatedCardDetails);
+
+    closeCardForm();
+
+    // const getCards = await getCardByListId(data.listId);
+    renderList(activeTeam);
+
+    return;
+  } catch (e) {
+    if (e instanceof ValidationError) {
+      e.inner.forEach((error) => {
+        displayValidationError(cardEditFormElement, error.path!, error.message);
+      });
+    }
+    if (e instanceof AxiosError) {
+      showToastMessage("error", e.response?.data.message);
+    }
+  }
+}
+
+export async function handleAddCardForm(e: Event) {
+  try {
+    e.preventDefault();
+
+    const listId = addCardForm.id;
     const title = (addCardForm.elements.namedItem("title") as HTMLInputElement)
       .value;
     const description = (
@@ -146,8 +221,10 @@ export async function handleAddCardForm(
       description,
       deadline,
       assignedTo,
-      listId: formData.listId,
+      listId,
     };
+
+    data.deadline = data.deadline.split("T", 1)[0];
 
     const validateData = await validateFormData(createCardSchema, data);
 
@@ -157,12 +234,13 @@ export async function handleAddCardForm(
     if (validateData) {
       await createCard(data);
     }
+
     closeCardForm();
 
     const getCards = await getCardByListId(data.listId);
-    console.log("afgacv", getCards, formData.activeTeam);
-    renderList(formData.activeTeam);
-    return;
+    resetAddCardForm();
+    renderList(activeTeam);
+    return getCards;
   } catch (e) {
     if (e instanceof ValidationError) {
       e.inner.forEach((error) => {
@@ -170,49 +248,50 @@ export async function handleAddCardForm(
       });
     }
     if (e instanceof AxiosError) {
-      showToastMessage("error", e.response?.data.message);
+      if (e.response?.status === 404) {
+        displayValidationError(
+          addCardForm,
+          "assignedTo",
+          "Assigned to is required"
+        );
+      } else {
+        showToastMessage("error", e.response?.data.message);
+      }
     }
   }
 }
 
-export async function handleCardStatusBtn(
-  e: Event,
-  cardId: string,
-  element: { cardStatusBtnElement: HTMLElement; cardStatusElement: HTMLElement }
-) {
-  {
-    e.preventDefault();
-    const response = await updateCardStatus(cardId);
+editCardCloseButton?.addEventListener("click", (e) => {
+  e.preventDefault();
+  closeCardForm();
+});
 
-    const statusShow =
-      response[0].status === "incomplete" ? "Incomplete" : "Complete";
-    element.cardStatusElement.innerHTML =
-      `Status: ${statusShow}` || "Incomplete";
-
-    return response;
-  }
-}
-
-cardCloseButton.addEventListener("click", (e) => {
+cardCloseButton?.addEventListener("click", (e) => {
   e.preventDefault();
   closeCardForm();
 
   //reset form value
+  resetAddCardForm();
+});
+
+export async function resetAddCardForm() {
   cardTitleInputElement.value = "";
   addCardForm.description.value = "";
   addCardForm.deadline.value = "";
   addCardForm.assignedTo.selectedIndex = 0;
-});
+}
 
-cardTitleInputElement.addEventListener("input", () => {
+cardTitleInputElement?.addEventListener("input", () => {
   cardTitleInputElement.classList.remove("is-invalid");
 });
-addCardForm.description.addEventListener("input", () => {
+
+addCardForm?.description?.addEventListener("input", () => {
   addCardForm.description.classList.remove("is-invalid");
 });
-addCardForm.deadline.addEventListener("input", () => {
+
+addCardForm?.deadline?.addEventListener("input", () => {
   addCardForm.deadline.classList.remove("is-invalid");
 });
-addCardForm.assignedTo.addEventListener("input", () => {
+addCardForm?.assignedTo?.addEventListener("input", () => {
   addCardForm.assignedTo.classList.remove("is-invalid");
 });

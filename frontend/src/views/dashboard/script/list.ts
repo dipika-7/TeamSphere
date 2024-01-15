@@ -9,11 +9,11 @@ const listElement = document.getElementById("list") as HTMLElement;
 
 export async function renderList(teamId: string) {
   const getLists = await getListByTeamId(teamId);
-  // console.log("t", getLists);
   listElement.innerHTML = "";
+  listElement.classList.add("list-sm");
   for await (const list of getLists) {
     const listGroupElement = document.createElement("div");
-    listGroupElement.classList.add("list-group");
+    listGroupElement.classList.add("list-group", "col-sm");
 
     const listNameElement = document.createElement("h3");
     listNameElement.classList.add("heading");
@@ -25,7 +25,7 @@ export async function renderList(teamId: string) {
 
     listGroupElement.appendChild(listDetailElement);
     listElement.appendChild(listGroupElement);
-    const buttonElement = await renderButton(list.id, teamId);
+    const buttonElement = await renderButton(list.id);
     listGroupElement?.appendChild(buttonElement);
     await renderCard(list.id);
 
@@ -39,8 +39,15 @@ export async function assignedToListInForm(
   element: HTMLElement,
   teamId: string
 ) {
+  element.innerHTML = "";
+
+  const defaultOptionElement = document.createElement("option");
+  defaultOptionElement.innerHTML = "Choose...";
+  defaultOptionElement.disabled = true;
+  defaultOptionElement.selected = true;
+  element.appendChild(defaultOptionElement);
+
   const userList = await getUserTeamByTeamId(teamId);
-  console.log(userList);
   userList.forEach((team: IUserTeam) => {
     const optionElement = document.createElement("option");
     optionElement.value = team.userId;
