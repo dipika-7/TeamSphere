@@ -12,6 +12,9 @@ import { handleAddUserBtn, handleAddUserFormSubmit } from "./user";
 
 const searchField = document.getElementById("search-field") as HTMLInputElement;
 
+/**
+ * Function to fetch on window load
+ */
 window.onload = async () => {
   await fetchAndInsertNavBarContent();
   await renderTeam();

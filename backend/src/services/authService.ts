@@ -137,7 +137,6 @@ export const changePassword = async (userId: string, data: IPassword) => {
   }
 
   userDetail.password = await hashPassword(newPassword);
-  console.log(userDetail);
   await UserModel.update(userDetail.id, userDetail);
   return userDetail;
 };

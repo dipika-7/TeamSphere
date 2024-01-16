@@ -66,9 +66,8 @@ export const deleteTeam = async (id: string) => {
   }
 
   const listsOfTeam = await ListService.getListByTeamId(id);
-  console.log("listsOfTeam", listsOfTeam);
+
   listsOfTeam.forEach(async (list) => {
-    console.log("list delete", list.id);
     await ListService.deleteList(list.id);
 
     const cardsOfList = await CardService.getCardByListId(list.id);

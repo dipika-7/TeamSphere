@@ -15,7 +15,6 @@ export default class ListModel extends BaseModel {
       .join("teams as t", "l.teamId", "=", "t.id")
       .where({ "l.id": id, "l.isDeleted": false })
       .first();
-    console.log(query.toQuery());
     return query;
   }
 

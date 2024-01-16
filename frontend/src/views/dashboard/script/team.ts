@@ -41,19 +41,35 @@ const teamMemberContainer = document.getElementById(
   "team-members"
 ) as HTMLElement;
 const teamActionElement = document.getElementById("about-team") as HTMLElement;
+const noTeamContainer = document.getElementById(
+  "no-team-container"
+) as HTMLElement;
 
 export let activeTeam: string;
 
+/**
+ * Get team details and set team detail title
+ *
+ * @param teamId
+ */
 export async function renderTeamDetail(teamId: string) {
   aboutTeamElement.classList.remove("d-none");
+
   const teamDetail = await getTeamById(teamId);
   teamDetailElement.innerHTML = "";
+
   const teamNameElement = document.createElement("p");
   teamNameElement.classList.add("heading");
   teamNameElement.innerHTML = teamDetail.name ? teamDetail.name : "";
+
   teamDetailElement.appendChild(teamNameElement);
 }
 
+/**
+ * check team is created by user or not
+ *
+ * @param teamId
+ */
 export async function checkTeam(teamId: string) {
   const response = await checkTeamCreateByUser(teamId);
   if (!response) {
@@ -69,27 +85,36 @@ export async function checkTeam(teamId: string) {
   }
 }
 
+/**
+ * Render team elements
+ *
+ * @returns The active team
+ */
 export async function renderTeam() {
   try {
     teamListElement.innerHTML = "";
-
     const teamList = await getTeamListByUserId();
 
     if (teamList.length > 0) {
+      noTeamContainer.innerHTML = "";
+
       activeTeam = teamList[0].teamId;
       renderTeamDetail(teamList[0].teamId);
       await renderList(activeTeam);
       await checkTeam(activeTeam);
       await getTeamMembersByTeamId();
     } else {
-      const noTeamCardElement = document.createElement("div");
+      const noTeamCardElement =
+        (document.getElementById("no-team-element") as HTMLElement) ||
+        document.createElement("div");
       noTeamCardElement.classList.add("card", "p-5", "mx-auto", "my-5");
 
       const noTeamElement = document.createElement("p");
       noTeamElement.innerHTML = "You are not added to any teams";
+      noTeamElement.id = "no-team-element";
       teamActionElement.innerHTML = "";
       noTeamCardElement.appendChild(noTeamElement);
-      teamActionElement.appendChild(noTeamCardElement);
+      noTeamContainer.appendChild(noTeamCardElement);
     }
 
     await teamList.forEach((team: IUserTeam) => {
@@ -113,6 +138,9 @@ export async function renderTeam() {
   }
 }
 
+/**
+ * Get team members by team id
+ */
 export async function getTeamMembersByTeamId() {
   const members = await getTeamMemberByTeamId(activeTeam);
   if (members) {
@@ -134,6 +162,12 @@ export async function getTeamMembersByTeamId() {
   }
 }
 
+/**
+ * Filter card by assignee
+ *
+ * @param e
+ * @param member
+ */
 export async function handleToFilterCard(e: Event, member: IUserTeam) {
   e.preventDefault();
   const getCardsByAssignedId = await getCardByAssigneeId(
@@ -147,6 +181,7 @@ export async function handleToFilterCard(e: Event, member: IUserTeam) {
   }
 }
 
+// Close Add Team form
 addTeamCloseButton?.addEventListener("click", (e) => {
   e.preventDefault();
   closeCardForm();
@@ -189,6 +224,7 @@ teamFormElement?.addEventListener("submit", async (e) => {
   }
 });
 
+// Display Add Team form
 addTeamButton?.addEventListener("click", (e) => {
   e.preventDefault();
   teamFormElement.classList.remove("d-none");
@@ -196,6 +232,7 @@ addTeamButton?.addEventListener("click", (e) => {
   mainContainer.style.pointerEvents = "none";
 });
 
+// Event listeners to remove "is-invalid" class from input tags
 teamNameInput?.addEventListener("input", () => {
   teamNameInput.classList.remove("is-invalid");
 });

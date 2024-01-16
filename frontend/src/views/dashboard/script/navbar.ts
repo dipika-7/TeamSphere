@@ -4,6 +4,9 @@ import { getTeamListByUserId } from "../../../services/userService";
 import { renderList } from "./list";
 import { checkTeam, renderTeamDetail } from "./team";
 
+/**
+ * Fetch and insert nav bar content
+ */
 export async function fetchAndInsertNavBarContent() {
   try {
     const navBarElement =
@@ -20,6 +23,7 @@ export async function fetchAndInsertNavBarContent() {
     ) as HTMLElement;
 
     logoutBtn?.addEventListener("click", async (e) => handleLogout(e));
+
     logoutBtnCollapse?.addEventListener("click", async (e) => handleLogout(e));
 
     fetchNavListForCollapse();
@@ -28,6 +32,9 @@ export async function fetchAndInsertNavBarContent() {
   }
 }
 
+/**
+ *  Fetch nav list item for mobile view
+ */
 async function fetchNavListForCollapse() {
   const navListCollapseElement = document.getElementById(
     "team-list-collapse"
@@ -58,13 +65,18 @@ async function fetchNavListForCollapse() {
   });
 }
 
+/**
+ * Remove access token and refresh token
+ *
+ * @param e
+ * @returns The logout message
+ */
 async function handleLogout(e: Event) {
   e.preventDefault();
   const refreshToken = localStorage.getItem("refreshToken");
   if (refreshToken) {
     try {
       const result = await logout(refreshToken);
-      console.log("Logout successful");
       return result;
     } catch (error) {
       // Handle errors, e.g., display an alert

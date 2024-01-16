@@ -14,6 +14,9 @@ const cardEditFormElement = document.getElementById(
   "edit-card-container"
 ) as HTMLElement;
 
+/**
+ * Close all form containers
+ */
 export async function closeCardForm() {
   addCardContainer?.classList.add("d-none");
   addUserContainer?.classList.add("d-none");
@@ -24,6 +27,11 @@ export async function closeCardForm() {
   mainContainer.style.pointerEvents = "auto";
 }
 
+/**
+ * Render add card button for a list
+ *
+ * @param listId
+ */
 export async function renderButton(listId: string) {
   const addCardDivButton = document.createElement("div");
 
@@ -41,6 +49,7 @@ export async function renderButton(listId: string) {
     const assignedTo = document.getElementById(
       "assignedTo"
     ) as HTMLSelectElement;
+
     await assignedToListInForm(assignedTo, activeTeam);
     addCardToList(listId);
   });

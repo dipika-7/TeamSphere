@@ -9,13 +9,11 @@ export const signupSchema = yup.object().shape({
       "Username can only contain alphanumeric characters"
     ),
   email: yup.string().email("Invalid email").required("Email is required"),
-  designation: yup
-    .string()
-    .required("Designation is required")
-    .oneOf(
-      ["manager", "developer"],
-      "Designation must be 'manager' or 'developer'"
-    ),
+  designation: yup.string().required("Designation is required"),
+  // .oneOf(
+  //   ["manager", "developer"],
+  //   "Designation must be 'manager' or 'developer'"
+  // ),
   password: yup
     .string()
     .matches(

@@ -12,7 +12,6 @@ export async function register(user: {
   try {
     const response = await http.post(AUTH_ENDPOINTS.REGISTER, user);
 
-    console.log("Signup success", response, response.data.status);
     if (response.data.status === 200) {
       showToastMessage("success", response.data.message);
       setTimeout(() => {
@@ -62,7 +61,6 @@ export async function getNewAccessToken(refreshToken: string) {
 export async function logout(refreshToken: string) {
   try {
     const response = await http.post(AUTH_ENDPOINTS.LOGOUT, { refreshToken });
-    console.log(response);
     if (response.status == 200) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");

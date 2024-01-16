@@ -50,14 +50,20 @@
               class="container d-flex justify-content-between mt-3 d-none align-content-center col-md-12 flex-wrap"
               id="about-team"
             >
+              <!-- no team container -->
+              <div id="no-team-container"></div>
+
+              <!-- team detail container -->
               <div id="team-detail"></div>
 
+              <!-- search field -->
               <input
                 type="text"
                 class="form-control col-lg-6 col-md-6"
                 id="search-field"
               />
 
+              <!-- team action button -->
               <div class="btn-group col-lg-3 col-md-4" id="button-group">
                 <div class="card" id="team-members"></div>
                 <button
@@ -76,6 +82,7 @@
             </div>
             <!-- team detail and add user button start -->
 
+            <!-- list and card container -->
             <div class="content team-detail-container" id="list-card-container">
               <div class="board" id="list-container">
                 <div id="list" class="lanes"></div>
@@ -228,7 +235,7 @@
           </div>
           <form class="row g-3 needs-validation" id="add-user-form" novalidate>
             <div class="col-lg-12">
-              <label for="assignedTo" class="form-label col-md-5"
+              <label for="assignedTo" class="form-label col-md-5 col-lg-8"
                 >Assigned to</label
               >
               <div class="input-group mb-3">

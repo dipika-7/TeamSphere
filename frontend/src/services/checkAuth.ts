@@ -6,8 +6,7 @@ const checkAuth = async () => {
 
   try {
     if (accessToken !== "") {
-      const response = await http.get(USER_ENDPOINTS.PROFILE);
-      console.log(response.data.data);
+      await http.get(USER_ENDPOINTS.PROFILE);
       return true;
     } else {
       throw new Error();

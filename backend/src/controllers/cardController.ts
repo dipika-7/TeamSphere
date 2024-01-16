@@ -78,7 +78,6 @@ export const getCardSearch = async (
       user.id,
       searchTerm as string
     );
-    console.log(result);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got",
       data: result,
@@ -97,13 +96,10 @@ export const getCardByAssigneeId = async (
     const teamId = req.query.teamId || "";
     const userId = req.query.userId;
 
-    console.log(userId, teamId);
-
     const result = await cardService.getByAssigneeId(
       userId as string,
       teamId as string
     );
-    console.log(result);
     return res.status(GLOBALVARS.successStatusCode).json({
       message: "Successfully got",
       data: result,

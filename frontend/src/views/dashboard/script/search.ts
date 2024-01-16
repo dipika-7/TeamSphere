@@ -23,38 +23,47 @@ export async function handleSearch(e: Event) {
 export async function renderSearchedCard(cards: ICard[]) {
   listCardContainer.innerHTML = "";
 
+  // Div element for card group
   const cardGroupElement = document.createElement("div");
   cardGroupElement.classList.add("card-group", "mx-5", "p-2");
 
+  // Ull element for card list in unordered list
   const cardListElement = document.createElement("ul");
   cardListElement.classList.add("card-list", "col-12", "swim-lane");
 
   cards.forEach(async (card: ICard) => {
+    // Li element for each card
     const cardItemElement = document.createElement("li");
     cardItemElement.classList.add("card-item", "task", "mb-4", "py-3", "px-4");
 
+    // Assign id and draggable for drag funvtion
     cardItemElement.id = card.id;
     cardItemElement.draggable = true;
 
+    // Card title
     const cardTitleElement = document.createElement("span");
     cardTitleElement.style.fontSize = "16px";
     cardTitleElement.innerHTML = card.title;
 
+    // Card deadline div
     const deadlineDiv = document.createElement("div");
     deadlineDiv.classList.add("deadline", "flex-wrap", "d-flex");
 
     const deadlineDateDiv = document.createElement("div");
     deadlineDateDiv.classList.add("deadline", "flex-wrap");
 
+    // Clock icon
     const iconElement = document.createElement("i");
     iconElement.classList.add("ph", "ph-clock", "icon-small-size");
     deadlineDateDiv.appendChild(iconElement);
 
+    // Card deadline
     const cardDeadlineElement = document.createElement("span");
     cardDeadlineElement.style.fontSize = "12px";
     const date = card.deadline.split("T")[0];
     cardDeadlineElement.innerHTML = date;
 
+    // Check if deadline is passed and change text style
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
 
@@ -63,13 +72,9 @@ export async function renderSearchedCard(cards: ICard[]) {
     }
     deadlineDateDiv.appendChild(cardDeadlineElement);
 
+    // Store assigned to and deadline
     const cardDetailDiv = document.createElement("div");
     cardDetailDiv.classList.add("d-flex", "flex-column");
-
-    const cardStatusElement = document.createElement("span");
-    cardStatusElement.style.fontSize = "12px";
-    const status = card.status === "incomplete" ? "Incomplete" : "Complete";
-    cardStatusElement.innerHTML = `Status: ${status}` || "incomplete";
 
     const getUserDetail = await getUserById(card.assignedTo);
 
@@ -77,9 +82,9 @@ export async function renderSearchedCard(cards: ICard[]) {
     cardAssignedToElement.style.fontSize = "12px";
     cardAssignedToElement.innerHTML = `Assigned to: ${getUserDetail.username}`;
 
+    // Appedn all elements
     cardItemElement.appendChild(cardTitleElement);
 
-    cardDetailDiv.appendChild(cardStatusElement);
     cardDetailDiv.appendChild(cardAssignedToElement);
 
     deadlineDiv.appendChild(deadlineDateDiv);
@@ -94,6 +99,9 @@ export async function renderSearchedCard(cards: ICard[]) {
   listCardContainer?.appendChild(cardGroupElement);
 }
 
+/**
+ * Render not found screen for empty search results
+ */
 export async function renderNotAvailable() {
   listCardContainer.innerHTML = "";
   const card = document.createElement("div");

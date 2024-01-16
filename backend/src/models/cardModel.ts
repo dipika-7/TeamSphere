@@ -50,13 +50,12 @@ export default class CardModel extends BaseModel {
       .join("user_team", "teams.id", "user_team.teamId")
       .where("user_team.userId", userId)
       .andWhere(function () {
-        this.where("cards.title", "like", `%${searchTerm}%`).orWhere(
+        this.where("cards.title", "ILIKE", `%${searchTerm}%`).orWhere(
           "cards.description",
-          "like",
+          "ILIKE",
           `%${searchTerm}%`
         );
       });
-    console.log(query.toQuery());
     return query;
   }
 
